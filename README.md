@@ -21,12 +21,12 @@ Description:
 Generates simulated byte data to mimic data received from a USB device.
 
 Parameters:
-data_size (int, default=64): Desired size of the simulated data byte string.
+* data_size (int, default=64): Desired size of the simulated data byte string.
 Returns:
-bytes: A byte string containing the message "Hello, this is simulated data from your device." followed by null bytes to fill up the desired length.
+* bytes: A byte string containing the message "Hello, this is simulated data from your device." followed by null bytes to fill up the desired length.
 Example:
-print(simulate_usb_data(32))
-Output: b'Hello, this is simulated data\x00\x00\x00\x00\x00\x00'
+* print(simulate_usb_data(32))
+* Output: b'Hello, this is simulated data\x00\x00\x00\x00\x00\x00'
 *****************************
 get_usb_data(vendor_id, product_id, endpoint, data_size=64, simulate=False/True)
 Description:
