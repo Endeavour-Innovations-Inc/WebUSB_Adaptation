@@ -1,5 +1,10 @@
 # WebUSB_Adaptation (PyUSB)
 
+Instructions on how to activate the virtual environment:
+In the command line:
+* python3 -m venv venv (instantiate the virtual environment for python)
+* For mac/linux: source venv/bin/activate (activate the virtual environment)
+
 Instructions on how to install and work with the PyUSB:
 
 1. Create directory
