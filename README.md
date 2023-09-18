@@ -4,6 +4,7 @@ Instructions on how to activate the virtual environment:
 In the command line:
 * python3 -m venv venv (instantiate the virtual environment for python)
 * For mac/linux: source venv/bin/activate (activate the virtual environment)
+* For windows: venv\Scripts\activate
 
 Instructions on how to install and work with the PyUSB:
 
