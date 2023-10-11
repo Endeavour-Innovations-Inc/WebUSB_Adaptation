@@ -1,27 +1,79 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>SimpleScope</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <!-- Choose file and upload file button control -->
-        <input type="file" id="uploadfile" accept=".csv">
-        <button id="arm">Arm</button>
-        <button id="reset">Reset</button>
 
-        <!-- Loading in the remote url to use plotly.js -->
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<head>
+    <title>SimpleScope</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Add some styling for the test scenario buttons */
+        #testScenarios {
+            display: flex;
+            gap: 10px; /* Spacing between buttons */
+            margin-top: 10px;
+        }
 
-        <!-- Loading in the remote url to use papaparse for handling csv files --> 
-        <!--script src="./papaparse.min.js"></script-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-        <!--script src="./node_modules/cors/lib/index.js"></script-->
-        
-        <!-- Create a space for displaying graphs later using plotly.js -->
-        <div id="chart"></div>
+        #testScenarios button,
+        #settingsToggle {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
 
-        <script src="plotter.js"></script>
-    </body>
+        #settingsPanel {
+            display: none; /* Initially hidden */
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow */
+            width: 150px; /* Reduced width */
+            height: 200px; /* Increased height */
+            background-color: #f5f5f5; /* Slightly different color than white */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Choose file and upload file button control -->
+    <input type="file" id="uploadfile" accept=".csv">
+    <button id="arm">Arm</button>
+    <button id="reset">Reset</button>
+
+    <!-- Create a space for displaying graphs later using plotly.js -->
+    <div id="chart"></div>
+
+    <!-- Test scenario buttons -->
+    <div id="testScenarios">
+        <button>Test Scenario 1</button>
+        <button>Test Scenario 2</button>
+        <button>Test Scenario 3</button>
+    </div>
+
+    <!-- Settings Toggle Button and Panel -->
+    <button id="settingsToggle">Settings</button>
+    <div id="settingsPanel">
+        <!-- Removed text inside -->
+    </div>
+
+    <!-- Loading in the remote url to use plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Loading in the remote url to use papaparse for handling csv files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
+    <script src="plotter.js"></script>
+
+    <script>
+        // Script to toggle the settings panel
+        document.getElementById('settingsToggle').addEventListener('click', function() {
+            const panel = document.getElementById('settingsPanel');
+            if(panel.style.display === "none") {
+                panel.style.display = "block";
+            } else {
+                panel.style.display = "none";
+            }
+        });
+    </script>
+</body>
+
 </html>
