@@ -29,7 +29,31 @@
             width: 150px; /* Reduced width */
             height: 200px; /* Increased height */
             background-color: #f5f5f5; /* Slightly different color than white */
+            display: flex;
+            flex-direction: column;
         }
+
+        .settingsSection {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #timeSection {
+            height: 20%;
+        }
+
+        #triggerSection,
+        #oscillationSection {
+            height: 40%;
+            justify-content: center;
+        }
+
+        /* Adjust the width of the input box */
+        #timeSection input {
+            width: 60%;
+        }
+
     </style>
 </head>
 
@@ -52,7 +76,21 @@
     <!-- Settings Toggle Button and Panel -->
     <button id="settingsToggle">Settings</button>
     <div id="settingsPanel">
-        <!-- Removed text inside -->
+        <!-- Time section -->
+        <div id="timeSection" class="settingsSection">
+            <label>Time</label>
+            <input type="number" step="any" placeholder="Enter value">
+        </div>
+
+        <!-- Trigger section -->
+        <div id="triggerSection" class="settingsSection">
+            <span>Trigger</span>
+        </div>
+
+        <!-- Oscillation section -->
+        <div id="oscillationSection" class="settingsSection">
+            <span>Oscillation</span>
+        </div>
     </div>
 
     <!-- Loading in the remote url to use plotly.js -->
@@ -77,3 +115,4 @@
 </body>
 
 </html>
+
