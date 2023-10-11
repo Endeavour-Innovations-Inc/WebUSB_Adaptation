@@ -1,105 +1,68 @@
+//****************************** csv file handling ******************************//
+//declare two arrays to store time and sine values
 
-  armProgram();
+const time_data = []; //global time variable
+const point_data = []; //global data variable
 
-  //****************************** csv file handling ******************************//
-  //declare two arrays to store time and sine values
-  
-  const time_data = []; //global time variable
-  const point_data = []; //global data variable
-  var dataFile;
+initiateProgram();
 
-  makePlotly(time_data, point_data);
-    
-  async function armProgram()
-  {
+function initiateProgram() {
+    // Event listener for file input
+    document.getElementById('uploadfile').addEventListener('change', function(event){
+        const file = event.target.files[0];
+        parseCSV(file);
+    });
+
     //resets canvas
-    const reset = document.getElementById('reset').
-      addEventListener('click', () => {
-        
-        //calls localhost:9000 to remove data.csv from root directory
-        //fetch('http://localhost:9000/data.csv');
-
+    document.getElementById('reset').addEventListener('click', () => {
         time_data.length = 0; //global time variable
         point_data.length = 0; //global data variable
         makePlotly(time_data, point_data);
     });
 
-    //calls localhost:8000 to load data.csv, parses file, draws canvas
-    const upload = document.getElementById('arm').
-      addEventListener('click', () => {
+    makePlotly(time_data, point_data); // Initial call to create an empty plot
+}
 
-      fetch('http://localhost:9000/data.csv');
-      time_data.length = 0; //global time variable
-      point_data.length = 0; //global data variable
-      makePlotly(time_data, point_data);
-
-      Papa.parse('http://localhost:8000/data.csv',
-      {
-        download: true,
+function parseCSV(file) {
+    Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
-        complete: function(results)
-        {
-            //console.log(results); //<===== for testing
-            //console.log(results.data[0].sine); //<===== for testing
-
+        complete: function(results) {
             time_data.length = 0;     //clear out time array
             point_data.length = 0;    //clear out data_point array
-            //push all values into their own array
-            for(i = 0; i < results.data.length; i++)
-            {
-              time_data.push(results.data[i].t);      //push time values into time_data[]
-              point_data.push(results.data[i].data);  //push point values into point_data[]
+
+            for(let i = 0; i < results.data.length; i++) {
+                time_data.push(results.data[i].t);      //push time values into time_data[]
+                point_data.push(results.data[i].data);  //push point values into point_data[]
             }
-            //console.log(time_data); //<===== for testing
-            //console.log(point_data); //<===== for testing
             makePlotly(time_data, point_data);
         }
-      });
     });
-  } 
-  // console.log(time); //<===== for testing
-  // console.log(sine); //<===== for testing
+}
 
-  //****************************** Plotly.js Graph Control ******************************//
-  //data graphing control
-   function makePlotly(time_data, point_data)
-  {
-    myChart = document.getElementById('chart');
+//****************************** Plotly.js Graph Control ******************************//
+//data graphing control
+function makePlotly(time_data, point_data) {
+    const myChart = document.getElementById('chart');
     Plotly.newPlot(myChart, data, layout, config);
-    // Plotly.newPlot( CHART, layout,[{
-    //   x: time_data,   //x-axis data
-    //   y: point_data,  //y-axis datas
-    //   type:'line'     //chart type
-    // }]);
-  }
+}
 
-/*  async function getData(){
-    if('http://localhost:8000/data.csv'.exists()){
-      let dataFile = await fetch('http://localhost:8000/data.csv');
-      return;
-    }else getData();
-  }
-*/
-  //automatically resize to fit device's window size
-  var config = {responsive: true}
+//automatically resize to fit device's window size
+var config = {responsive: true}
 
-  //first data trace 
-  var trace1 = {
+//first data trace 
+var trace1 = {
     x: time_data,   //x-axis data
     y: point_data,  //y-axis datas
-    //mode:'markers + line',
     type:'line'     //chart type
-  }
+}
 
-  //data to be ploted to chart (for furture ploting multiple data on the same graph)
-  var data = [trace1];
+//data to be plotted to chart (for future plotting multiple data on the same graph)
+var data = [trace1];
 
-  //plotly chart customization
-  var layout = {
+//plotly chart customization
+var layout = {
     autosize: true,
-    // width: 1500,
-    // height: 680,
     title:{
       text: 'Input Signal', //chart title
       font:{
@@ -109,7 +72,6 @@
     },
 
     xaxis:{
-      //automargin: true,
       title:{
         text: 'Time', //chart title
         font:{
@@ -120,7 +82,6 @@
     },
 
     yaxis:{
-      //automargin: true,
       title:{
         text: 'Amplitude (V)', //chart title
         font:{
@@ -129,5 +90,4 @@
         }
       }
     },
-  };
- 
+};
