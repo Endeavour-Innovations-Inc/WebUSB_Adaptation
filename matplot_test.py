@@ -1,39 +1,118 @@
 import matplotlib.pyplot as plt
+from matplotlib.backend_bases import MouseEvent
 import scipy.signal
+import scipy.fft
+import numpy as np
 import plotly.express as px
-import plotly.subplots
-import plotly.graph_objects as go
 import csv
 
 from scipy import signal
+from scipy import fftpack
 from plotly.subplots import make_subplots
 
 t_data = []
 v_data = []
 
 with open('noisy_sin_gen.csv', newline='') as csvfile:
-#with open('tri_gen.csv', newline='') as csvfile:
     reader = csv.reader(csvfile, delimiter=',', quoting=csv.QUOTE_NONE)
-    next(reader, None)  # skip the headers
+    header = next(reader, None)  # skip the headers, save to 'header'
     for row in reader:
         t_data.append(float(row[0]))
         v_data.append(float(row[1]))
+
+print(header)
 print(t_data)
 print(v_data)
 
 
-b, a = signal.butter(3, 0.05)
+b, a = signal.butter(3, 0.025)
 zi = signal.lfilter_zi(b, a)
 y_filt = signal.filtfilt(b, a, v_data)
 
-
+"""
 plt.plot(t_data, v_data)
 plt.plot(t_data, y_filt)
 plt.show()
-
+"""
 
 """
-fig = px.line(x=t_data, y=v_data)
-fig.add_scatter(x=t_data, y=y_filt)
+N = 1000
+# sample spacing
+T = 1.0 / 8000000.0
+x = np.linspace(0.0, N*T, N, endpoint=False)
+yf = fft(v_data)
+xf = fftfreq(N, T)[:N//2]
+
+print(yf)
+
+plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
+plt.show()
+"""
+
+"""
+fig = px.line(y=freq)
 fig.show()
 """
+
+class SnappingCursor:
+    """
+    A cross-hair cursor that snaps to the data point of a line, which is
+    closest to the *x* position of the cursor.
+
+    For simplicity, this assumes that *x* values of the data are sorted.
+    """
+    def __init__(self, ax, line):
+        self.ax = ax
+        self.horizontal_line = ax.axhline(color='k', lw=0.8, ls='--')
+        self.vertical_line = ax.axvline(color='k', lw=0.8, ls='--')
+        self.x, self.y = line.get_data()
+        self._last_index = None
+        # text location in axes coords
+        self.text = ax.text(0.72, 0.9, '', transform=ax.transAxes)
+
+    def set_cross_hair_visible(self, visible):
+        need_redraw = self.horizontal_line.get_visible() != visible
+        self.horizontal_line.set_visible(visible)
+        self.vertical_line.set_visible(visible)
+        self.text.set_visible(visible)
+        return need_redraw
+
+    def on_mouse_move(self, event):
+        if not event.inaxes:
+            self._last_index = None
+            need_redraw = self.set_cross_hair_visible(False)
+            if need_redraw:
+                self.ax.figure.canvas.draw()
+        else:
+            self.set_cross_hair_visible(True)
+            x, y = event.xdata, event.ydata
+            index = min(np.searchsorted(self.x, x), len(self.x) - 1)
+            if index == self._last_index:
+                return  # still on the same data point. Nothing to do.
+            self._last_index = index
+            x = self.x[index]
+            y = self.y[index]
+            # update the line positions
+            self.horizontal_line.set_ydata([y])
+            self.vertical_line.set_xdata([x])
+            self.text.set_text(f'x={x:1.2f}, y={y:1.2f}')
+            self.ax.figure.canvas.draw()
+
+fig, ax = plt.subplots()
+ax.set_title('Snapping cursor')
+#line, = ax.plot(t_data, v_data)
+line, = ax.plot(t_data, y_filt)
+snap_cursor = SnappingCursor(ax, line)
+fig.canvas.mpl_connect('motion_notify_event', snap_cursor.on_mouse_move)
+
+# Simulate a mouse move to (0.5, 0.5), needed for online docs
+t = ax.transData
+MouseEvent(
+    "motion_notify_event", ax.figure.canvas, *t.transform((0.5, 0.5))
+)._process()
+
+plt.show()
+
+
+
+
