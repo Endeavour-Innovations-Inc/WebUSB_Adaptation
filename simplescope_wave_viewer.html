@@ -6,58 +6,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Add some styling for the test scenario buttons */
-        #testScenarios {
+        /* Add some styling for the graph control buttons */
+        #graphControl {
             display: flex;
-            gap: 10px; /* Spacing between buttons */
-            margin-top: 10px;
-        }
-
-        #testScenarios button,
-        #settingsToggle {
-            padding: 5px 10px;
-            font-size: 14px;
-        }
-
-        #settingsPanel {
-            display: none; /* Initially hidden */
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 10px; /* Rounded corners */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow */
-            width: 150px; /* Reduced width */
-            height: 200px; /* Increased height */
-            background-color: #f5f5f5; /* Slightly different color than white */
-            display: flex;
-            flex-direction: column;
-        }
-
-        .settingsSection {
-            display: flex;
-            align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #ccc; /* Adding the thin line here */
-            flex-grow: 1; /* Ensure the sections take up equal height */
+            align-items: center;
+            margin: 40px 0; /* Increased top space */
+            gap: 15px; /* Spacing between buttons */
         }
 
-        #oscillationSection {
-            border-bottom: none; /* Removing the bottom border for the last section */
+        #graphControl button {
+            padding: 5px 5px; /* Further reduced padding */
+            font-size: 14px;
+            width: 80px; /* Explicitly set the width of main buttons */
+            box-sizing: border-box; /* To ensure padding is included in the button's total width and height */
         }
 
-        #timeSection {
-            height: 20%;
+        #buttonGroup {
+            display: flex;
+            gap: 1px; /* Minimal gap to visually separate the buttons */
         }
 
-        #triggerSection,
-        #oscillationSection {
-            height: 40%;
-            justify-content: center;
+        #buttonGroup button {
+            width: 26px; /* Explicitly set the width of sub-buttons */
+            height: 30px; /* Explicitly set the height to match other buttons */
+            padding: 5px 2px; /* Reduced padding for sub-buttons */
         }
 
-        /* Adjust the width of the input box */
-        #timeSection input {
-            width: 60%;
+        /* Styling for the graph */
+        #chart {
+            border-top: 1px solid rgba(0, 0, 0, 0.3); /* More visible top border */
+            border-bottom: 1px solid rgba(0, 0, 0, 0.3); /* More visible bottom border */
+            margin: 20px 0; /* Space above and below the graph */
+        }
+
+        /* Styling for the small buttons in the lower left corner */
+        #cornerButtons {
+            position: absolute;
+            left: 10px;
+            bottom: 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        #cornerButtons button {
+            padding: 4px 6px;
+            font-size: 12px;
         }
 
     </style>
@@ -69,34 +63,25 @@
     <button id="arm">Arm</button>
     <button id="reset">Reset</button>
 
+    <!-- Graph control buttons -->
+    <div id="graphControl">
+        <div id="buttonGroup">
+            <button>&uarr;</button>
+            <button>&darr;</button>
+            <button>Sub 3</button>
+        </div>
+        <button>Button 2</button>
+        <button>Button 3</button>
+        <button>Button 4</button>
+    </div>
+
     <!-- Create a space for displaying graphs later using plotly.js -->
     <div id="chart"></div>
 
-    <!-- Test scenario buttons -->
-    <div id="testScenarios">
-        <button>Test Scenario 1</button>
-        <button>Test Scenario 2</button>
-        <button>Test Scenario 3</button>
-    </div>
-
-    <!-- Settings Toggle Button and Panel -->
-    <button id="settingsToggle">Settings</button>
-    <div id="settingsPanel">
-        <!-- Time section -->
-        <div id="timeSection" class="settingsSection">
-            <label>Time</label>
-            <input type="number" step="any" placeholder="Enter value">
-        </div>
-
-        <!-- Trigger section -->
-        <div id="triggerSection" class="settingsSection">
-            <span>Trigger</span>
-        </div>
-
-        <!-- Oscillation section -->
-        <div id="oscillationSection" class="settingsSection">
-            <span>Oscillation</span>
-        </div>
+    <!-- Small buttons in the lower left corner, directly beneath the graph -->
+    <div id="cornerButtons">
+        <button>Btn 1</button>
+        <button>Btn 2</button>
     </div>
 
     <!-- Loading in the remote url to use plotly.js -->
@@ -106,19 +91,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <script src="plotter.js"></script>
-
-    <script>
-        // Script to toggle the settings panel
-        document.getElementById('settingsToggle').addEventListener('click', function() {
-            const panel = document.getElementById('settingsPanel');
-            if(panel.style.display === "none") {
-                panel.style.display = "block";
-            } else {
-                panel.style.display = "none";
-            }
-        });
-    </script>
 </body>
 
 </html>
-
