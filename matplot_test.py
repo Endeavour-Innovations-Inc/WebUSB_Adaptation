@@ -18,21 +18,26 @@ dev = usb.core.find(idVendor=0x1fc9, idProduct=0x000C)
 if dev is None:
     raise ValueError('Our device is not connected')
 
+print(dev)
+
 cfg = usb.util.find_descriptor(dev, bConfigurationValue=1)
 cfg.set()
 
-print(cfg)
+#print(cfg)
 
 try:
     dev.set_interface_altsetting(interface = 0, alternate_setting = 0x0)
 except USBError:
     pass
 
-msg = 'test'
-assert dev.ctrl_transfer(0x40, CTRL_LOOPBACK_WRITE, 0, 0, msg) == len(msg)
-ret = dev.ctrl_transfer(0xC0, CTRL_LOOPBACK_READ, 0, 0, len(msg))
-sret = ''.join([chr(x) for x in ret])
-assert sret == msg
+for bRequest in range(255):
+    try:
+        read = dev.ctrl_transfer(0x81, bRequest, 0, 0, 8) #read 8 bytes
+        print ("bRequest ", bRequest)
+        print (read)
+    except:
+        # failed to get data for this request
+        pass
 
 """
 
