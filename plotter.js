@@ -91,3 +91,20 @@ var layout = {
       }
     },
 };
+
+function exportToExcel() {
+  // Convert time_data and point_data into an array of objects
+  let rows = [];
+  for (let i = 0; i < time_data.length; i++) {
+      rows.push({t: time_data[i], data: point_data[i]});
+  }
+
+  let ws = XLSX.utils.json_to_sheet(rows); // Convert the rows to worksheet format
+  let wb = XLSX.utils.book_new(); // Create a new workbook
+  XLSX.utils.book_append_sheet(wb, ws, "Data"); // Append the worksheet to the workbook
+  XLSX.writeFile(wb, "data.csv"); // Save the workbook as an Excel file
+}
+
+
+// Assuming the export button has been added to your HTML with the ID "export"
+document.getElementById('export').addEventListener('click', exportToExcel);
