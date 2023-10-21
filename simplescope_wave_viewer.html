@@ -44,7 +44,7 @@
         #cornerButtons {
             position: absolute;
             left: 10px;
-            bottom: 0;
+            bottom: 50px;  /* Adjust this value to position the buttons up from the bottom */
             display: flex;
             gap: 10px;
         }
@@ -62,6 +62,8 @@
     <input type="file" id="uploadfile" accept=".csv">
     <button id="arm">Arm</button>
     <button id="reset">Reset</button>
+    <button id="export">Export Data</button>
+    
 
     <!-- Graph control buttons -->
     <div id="graphControl">
@@ -80,8 +82,8 @@
 
     <!-- Small buttons in the lower left corner, directly beneath the graph -->
     <div id="cornerButtons">
-        <button>Btn 1</button>
-        <button>Btn 2</button>
+        <button>Vert</button>
+        <button>Horz</button>
     </div>
 
     <!-- Loading in the remote url to use plotly.js -->
@@ -90,6 +92,10 @@
     <!-- Loading in the remote url to use papaparse for handling csv files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
+    <!-- Loading in the xlsx library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+    <!-- Your plotter.js script -->
     <script src="plotter.js"></script>
 </body>
 
