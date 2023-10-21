@@ -1,14 +1,40 @@
 import matplotlib.pyplot as plt
 from matplotlib.backend_bases import MouseEvent
-import scipy.signal
-import scipy.fft
 import numpy as np
-import plotly.express as px
 import csv
 
 from scipy import signal
-from scipy import fftpack
-from plotly.subplots import make_subplots
+
+#pyusb setup
+import usb.core
+import usb.util
+import usb.backend.libusb1
+import sys
+
+backend = usb.backend.libusb1.get_backend(find_library=lambda x: "./libusb-1.0.dll")
+dev = usb.core.find(backend=backend)
+
+dev = usb.core.find(idVendor=0x1fc9, idProduct=0x000C)
+if dev is None:
+    raise ValueError('Our device is not connected')
+
+cfg = usb.util.find_descriptor(dev, bConfigurationValue=1)
+cfg.set()
+
+print(cfg)
+
+try:
+    dev.set_interface_altsetting(interface = 0, alternate_setting = 0x0)
+except USBError:
+    pass
+
+msg = 'test'
+assert dev.ctrl_transfer(0x40, CTRL_LOOPBACK_WRITE, 0, 0, msg) == len(msg)
+ret = dev.ctrl_transfer(0xC0, CTRL_LOOPBACK_READ, 0, 0, len(msg))
+sret = ''.join([chr(x) for x in ret])
+assert sret == msg
+
+"""
 
 t_data = []
 v_data = []
@@ -20,7 +46,7 @@ with open('noisy_sin_gen.csv', newline='') as csvfile:
         t_data.append(float(row[0]))
         v_data.append(float(row[1]))
 
-print(header)
+#print(header)
 print(t_data)
 print(v_data)
 
@@ -29,38 +55,13 @@ b, a = signal.butter(3, 0.025)
 zi = signal.lfilter_zi(b, a)
 y_filt = signal.filtfilt(b, a, v_data)
 
-"""
-plt.plot(t_data, v_data)
-plt.plot(t_data, y_filt)
-plt.show()
-"""
-
-"""
-N = 1000
-# sample spacing
-T = 1.0 / 8000000.0
-x = np.linspace(0.0, N*T, N, endpoint=False)
-yf = fft(v_data)
-xf = fftfreq(N, T)[:N//2]
-
-print(yf)
-
-plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
-plt.show()
-"""
-
-"""
-fig = px.line(y=freq)
-fig.show()
-"""
-
 class SnappingCursor:
-    """
-    A cross-hair cursor that snaps to the data point of a line, which is
-    closest to the *x* position of the cursor.
+    
+    #A cross-hair cursor that snaps to the data point of a line, which is
+    #closest to the *x* position of the cursor.
 
-    For simplicity, this assumes that *x* values of the data are sorted.
-    """
+    #For simplicity, this assumes that *x* values of the data are sorted.
+    
     def __init__(self, ax, line):
         self.ax = ax
         self.horizontal_line = ax.axhline(color='k', lw=0.8, ls='--')
@@ -112,6 +113,8 @@ MouseEvent(
 )._process()
 
 plt.show()
+
+"""
 
 
 
