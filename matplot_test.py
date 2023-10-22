@@ -32,7 +32,7 @@ except USBError:
 
 for bRequest in range(255):
     try:
-        read = dev.ctrl_transfer(0x81, bRequest, 0, 0, 8) #read 8 bytes
+        read = dev.ctrl_transfer(0x80, bRequest, 0, 0, 16) #read 8 bytes
         print ("bRequest ", bRequest)
         print (read)
     except:
