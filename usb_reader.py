@@ -1,5 +1,44 @@
 import serial
 
+# -----------------------  USB example ----------------------- 
+
+#pyusb setup
+import usb.core
+import usb.util
+import usb.backend.libusb1
+import sys
+
+backend = usb.backend.libusb1.get_backend(find_library=lambda x: "./libusb-1.0.dll")
+dev = usb.core.find(backend=backend)
+
+dev = usb.core.find(idVendor=0x1fc9, idProduct=0x000C)
+if dev is None:
+    raise ValueError('Our device is not connected')
+
+print(dev)
+
+cfg = usb.util.find_descriptor(dev, bConfigurationValue=1)
+cfg.set()
+
+#print(cfg)
+
+try:
+    dev.set_interface_altsetting(interface = 0, alternate_setting = 0x0)
+except USBError:
+    pass
+
+for bRequest in range(255):
+    try:
+        read = dev.ctrl_transfer(0x80, bRequest, 0, 0, 16) #read 8 bytes
+        print ("bRequest ", bRequest)
+        print (read)
+    except:
+        # failed to get data for this request
+        pass
+
+# ----------------------- serial port example ----------------------- 
+
+"""
 def simulate_uart_data(data_size=64):
     # Simulate data from a UART device
     simulated_data = b"Hello, this is simulated data from UART." + b"\x00" * (data_size - 48)
@@ -37,3 +76,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+"""
