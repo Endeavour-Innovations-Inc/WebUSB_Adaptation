@@ -11,7 +11,7 @@ import sys
 backend = usb.backend.libusb1.get_backend(find_library=lambda x: "./libusb-1.0.dll")
 dev = usb.core.find(backend=backend)
 
-dev = usb.core.find(idVendor=0x1fc9, idProduct=0x000C)
+dev = usb.core.find(idVendor=0x1fc9, idProduct=0x008A)
 if dev is None:
     raise ValueError('Our device is not connected')
 
@@ -27,14 +27,22 @@ try:
 except USBError:
     pass
 
-for bRequest in range(255):
-    try:
-        read = dev.ctrl_transfer(0x80, bRequest, 0, 0, 16) #read 8 bytes
-        print ("bRequest ", bRequest)
-        print (read)
-    except:
-        # failed to get data for this request
-        pass
+def get_device_info():
+    for bRequest in range(255):
+        try:
+            read = dev.ctrl_transfer(0x80, bRequest, 0, 0, 16) #read 8 bytes
+            print ("bRequest ", bRequest)
+            print (read)
+        except:
+            # failed to get data for this request
+            pass
+
+def get_samples():
+    voltage_data = [];
+    for i in range(255):
+        ret = dev.read(0x1, 0x40, timeout=None)
+        voltage_data.append(ret)
+    return voltage_data
 
 # ----------------------- serial port example ----------------------- 
 

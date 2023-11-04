@@ -1,0 +1,1304 @@
+Help on module usb.core in usb:
+
+NAME
+    usb.core - usb.core - Core USB features.
+
+DESCRIPTION
+    This module exports:
+
+    Device - a class representing a USB device.
+    Configuration - a class representing a configuration descriptor.
+    Interface - a class representing an interface descriptor.
+    Endpoint - a class representing an endpoint descriptor.
+    find() - a function to find USB devices.
+    show_devices() - a function to show the devices present.
+
+CLASSES
+    builtins.OSError(builtins.Exception)
+        USBError
+            USBTimeoutError
+    builtins.ValueError(builtins.Exception)
+        NoBackendError
+    builtins.object
+        Configuration
+        Endpoint
+        Interface
+    usb._objfinalizer.AutoFinalizedObject(usb._objfinalizer._AutoFinalizedObjectBase)
+        Device
+
+    class Configuration(builtins.object)
+     |  Configuration(device, configuration=0)
+     |
+     |  Represent a configuration object.
+     |
+     |  This class contains all fields of the Configuration Descriptor according to
+     |  the USB Specification. You may access them as class properties.  For
+     |  example, to access the field bConfigurationValue of the configuration
+     |  descriptor, you can do so:
+     |
+     |  >>> import usb.core
+     |  >>> dev = usb.core.find()
+     |  >>> for cfg in dev:
+     |  >>>     print cfg.bConfigurationValue
+     |
+     |  Methods defined here:
+     |
+     |  __getitem__(self, index)
+     |      Return the Interface object in the given position.
+     |
+     |      index is a tuple of two values with interface index and
+     |      alternate setting index, respectivally. Example:
+     |
+     |      >>> interface = config[(0, 0)]
+     |
+     |  __init__(self, device, configuration=0)
+     |      Initialize the configuration object.
+     |
+     |      The device parameter is the device object returned by the find()
+     |      function. The configuration parameter is the logical index of the
+     |      configuration (not the bConfigurationValue field). By "logical index"
+     |      we mean the relative order of the configurations returned by the
+     |      peripheral as a result of GET_DESCRIPTOR request.
+     |
+     |  __iter__(self)
+     |      Iterate over all interfaces of the configuration.
+     |
+     |  __repr__(self)
+     |      Return repr(self).
+     |
+     |  __str__(self)
+     |      Return str(self).
+     |
+     |  interfaces(self)
+     |      Return a tuple of the configuration interfaces.
+     |
+     |  set(self)
+     |      Set this configuration as the active one.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+    class Device(usb._objfinalizer.AutoFinalizedObject)
+     |  Device(dev, backend)
+     |
+     |  Device object.
+     |
+     |  This class contains all fields of the Device Descriptor according to the
+     |  USB Specification. You may access them as class properties.  For example,
+     |  to access the field bDescriptorType of the device descriptor, you can
+     |  do so:
+     |
+     |  >>> import usb.core
+     |  >>> dev = usb.core.find()
+     |  >>> dev.bDescriptorType
+     |
+     |  Additionally, the class provides methods to communicate with the hardware.
+     |  Typically, an application will first call the set_configuration() method to
+     |  put the device in a known configured state, optionally call the
+     |  set_interface_altsetting() to select the alternate setting (if there is
+     |  more than one) of the interface used, and call the write() and read()
+     |  methods to send and receive data, respectively.
+     |
+     |  When working in a new hardware, the first try could be like this:
+     |
+     |  >>> import usb.core
+     |  >>> dev = usb.core.find(idVendor=myVendorId, idProduct=myProductId)
+     |  >>> dev.set_configuration()
+     |  >>> dev.write(1, 'test')
+     |
+     |  This sample finds the device of interest (myVendorId and myProductId should
+     |  be replaced by the corresponding values of your device), then configures
+     |  the device (by default, the configuration value is 1, which is a typical
+     |  value for most devices) and then writes some data to the endpoint 0x01.
+     |
+     |  Timeout values for the write, read and ctrl_transfer methods are specified
+     |  in miliseconds. If the parameter is omitted, Device.default_timeout value
+     |  will be used instead. This property can be set by the user at anytime.
+     |
+     |  Method resolution order:
+     |      Device
+     |      usb._objfinalizer.AutoFinalizedObject
+     |      usb._objfinalizer._AutoFinalizedObjectBase
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __eq__(self, other)
+     |      Return self==value.
+     |
+     |  __getitem__(self, index)
+     |      Return the Configuration object in the given position.
+     |
+     |  __hash__(self)
+     |      Return hash(self).
+     |
+     |  __init__(self, dev, backend)
+     |      Initialize the Device object.
+     |
+     |      Library users should normally get a Device instance through
+     |      the find function. The dev parameter is the identification
+     |      of a device to the backend and its meaning is opaque outside
+     |      of it. The backend parameter is a instance of a backend
+     |      object.
+     |
+     |  __iter__(self)
+     |      Iterate over all configurations of the device.
+     |
+     |  __repr__(self)
+     |      Return repr(self).
+     |
+     |  __str__(self)
+     |      Return str(self).
+     |
+     |  attach_kernel_driver(self, interface)
+     |      Re-attach an interface's kernel driver, which was previously
+     |      detached using detach_kernel_driver().
+     |
+     |      The interface parameter is the device interface number to attach the
+     |      driver to.
+     |
+     |  clear_halt(self, ep)
+     |      Clear the halt/stall condition for the endpoint ep.
+     |
+     |  configurations(self)
+     |      Return a tuple of the device configurations.
+     |
+     |  ctrl_transfer(self, bmRequestType, bRequest, wValue=0, wIndex=0, data_or_wLength=None, timeout=None)
+     |      Do a control transfer on the endpoint 0.
+     |
+     |      This method is used to issue a control transfer over the endpoint 0
+     |      (endpoint 0 is required to always be a control endpoint).
+     |
+     |      The parameters bmRequestType, bRequest, wValue and wIndex are the same
+     |      of the USB Standard Control Request format.
+     |
+     |      Control requests may or may not have a data payload to write/read.
+     |      In cases which it has, the direction bit of the bmRequestType
+     |      field is used to infer the desired request direction. For
+     |      host to device requests (OUT), data_or_wLength parameter is
+     |      the data payload to send, and it must be a sequence type convertible
+     |      to an array object. In this case, the return value is the number
+     |      of bytes written in the data payload. For device to host requests
+     |      (IN), data_or_wLength is either the wLength parameter of the control
+     |      request specifying the number of bytes to read in data payload, and
+     |      the return value is an array object with data read, or an array
+     |      object which the data will be read to, and the return value is the
+     |      number of bytes read.
+     |
+     |  detach_kernel_driver(self, interface)
+     |      Detach a kernel driver.
+     |
+     |      If successful, you will then be able to perform I/O.
+     |
+     |      The interface parameter is the device interface number to detach the
+     |      driver from.
+     |
+     |  get_active_configuration(self)
+     |      Return a Configuration object representing the current
+     |      configuration set.
+     |
+     |  is_kernel_driver_active(self, interface)
+     |      Determine if there is kernel driver associated with the interface.
+     |
+     |      If a kernel driver is active, the object will be unable to perform
+     |      I/O.
+     |
+     |      The interface parameter is the device interface number to check.
+     |
+     |  read(self, endpoint, size_or_buffer, timeout=None)
+     |      Read data from the endpoint.
+     |
+     |      This method is used to receive data from the device. The endpoint
+     |      parameter corresponds to the bEndpointAddress member whose endpoint
+     |      you want to communicate with. The size_or_buffer parameter either
+     |      tells how many bytes you want to read or supplies the buffer to
+     |      receive the data (it *must* be an object of the type array).
+     |
+     |      The timeout is specified in miliseconds.
+     |
+     |      If the size_or_buffer parameter is the number of bytes to read, the
+     |      method returns an array object with the data read. If the
+     |      size_or_buffer parameter is an array object, it returns the number
+     |      of bytes actually read.
+     |
+     |  reset(self)
+     |      Reset the device.
+     |
+     |  set_configuration(self, configuration=None)
+     |      Set the active configuration.
+     |
+     |      The configuration parameter is the bConfigurationValue field of the
+     |      configuration you want to set as active. If you call this method
+     |      without parameter, it will use the first configuration found.  As a
+     |      device hardly ever has more than one configuration, calling the method
+     |      without arguments is enough to get the device ready.
+     |
+     |  set_interface_altsetting(self, interface=None, alternate_setting=None)
+     |      Set the alternate setting for an interface.
+     |
+     |      When you want to use an interface and it has more than one alternate
+     |      setting, you should call this method to select the appropriate
+     |      alternate setting. If you call the method without one or the two
+     |      parameters, it will be selected the first one found in the Device in
+     |      the same way of the set_configuration method.
+     |
+     |      Commonly, an interface has only one alternate setting and this call is
+     |      not necessary. For most devices, either it has more than one
+     |      alternate setting or not, it is not harmful to make a call to this
+     |      method with no arguments, as devices will silently ignore the request
+     |      when there is only one alternate setting, though the USB Spec allows
+     |      devices with no additional alternate setting return an error to the
+     |      Host in response to a SET_INTERFACE request.
+     |
+     |      If you are in doubt, you may want to call it with no arguments wrapped
+     |      by a try/except clause:
+     |
+     |      >>> try:
+     |      >>>     dev.set_interface_altsetting()
+     |      >>> except usb.core.USBError:
+     |      >>>     pass
+     |
+     |  write(self, endpoint, data, timeout=None)
+     |      Write data to the endpoint.
+     |
+     |      This method is used to send data to the device. The endpoint parameter
+     |      corresponds to the bEndpointAddress member whose endpoint you want to
+     |      communicate with.
+     |
+     |      The data parameter should be a sequence like type convertible to
+     |      the array type (see array module).
+     |
+     |      The timeout is specified in miliseconds.
+     |
+     |      The method returns the number of bytes written.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties defined here:
+     |
+     |  backend
+     |      Return the backend being used by the device.
+     |
+     |  langids
+     |      Return the USB device's supported language ID codes.
+     |
+     |      These are 16-bit codes familiar to Windows developers, where for
+     |      example instead of en-US you say 0x0409. USB_LANGIDS.pdf on the usb.org
+     |      developer site for more info. String requests using a LANGID not
+     |      in this array should not be sent to the device.
+     |
+     |      This property will cause some USB traffic the first time it is accessed
+     |      and cache the resulting value for future use.
+     |
+     |  manufacturer
+     |      Return the USB device's manufacturer string descriptor.
+     |
+     |      This property will cause some USB traffic the first time it is accessed
+     |      and cache the resulting value for future use.
+     |
+     |  parent
+     |      Return the parent device.
+     |
+     |  product
+     |      Return the USB device's product string descriptor.
+     |
+     |      This property will cause some USB traffic the first time it is accessed
+     |      and cache the resulting value for future use.
+     |
+     |  serial_number
+     |      Return the USB device's serial number string descriptor.
+     |
+     |      This property will cause some USB traffic the first time it is accessed
+     |      and cache the resulting value for future use.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  default_timeout
+     |      Default timeout for transfer I/O functions
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from usb._objfinalizer.AutoFinalizedObject:
+     |
+     |  finalize(self)
+     |      Finalizes the object if not already done.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from usb._objfinalizer.AutoFinalizedObject:
+     |
+     |  __new__(cls, *args, **kwargs)
+     |      Creates a new object instance and adds the private finalizer
+     |      attributes to it.
+     |
+     |      Returns: new object instance
+     |
+     |      Arguments:
+     |      * *args, **kwargs -- passed to the parent instance creator
+     |                           (which ignores them)
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from usb._objfinalizer._AutoFinalizedObjectBase:
+     |
+     |  __del__(self)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from usb._objfinalizer._AutoFinalizedObjectBase:
+     |
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+    class Endpoint(builtins.object)
+     |  Endpoint(device, endpoint, interface=0, alternate_setting=0, configuration=0)
+     |
+     |  Represent an endpoint object.
+     |
+     |  This class contains all fields of the Endpoint Descriptor according to the
+     |  USB Specification. You can access them as class properties. For example, to
+     |  access the field bEndpointAddress of the endpoint descriptor, you can do so:
+     |
+     |  >>> import usb.core
+     |  >>> dev = usb.core.find()
+     |  >>> for cfg in dev:
+     |  >>>     for i in cfg:
+     |  >>>         for e in i:
+     |  >>>             print e.bEndpointAddress
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, device, endpoint, interface=0, alternate_setting=0, configuration=0)
+     |      Initialize the Endpoint object.
+     |
+     |      The device parameter is the device object returned by the find()
+     |      function. endpoint is the endpoint logical index (not the endpoint
+     |      address). The configuration parameter is the logical index of the
+     |      configuration (not the bConfigurationValue field). The interface
+     |      parameter is the interface logical index (not the bInterfaceNumber
+     |      field) and alternate_setting is the alternate setting logical index
+     |      (not the bAlternateSetting value). An interface may have only one
+     |      alternate setting. In this case, the alternate_setting parameter
+     |      should be zero. By "logical index" we mean the relative order of the
+     |      configurations returned by the peripheral as a result of GET_DESCRIPTOR
+     |      request.
+     |
+     |  __repr__(self)
+     |      Return repr(self).
+     |
+     |  __str__(self)
+     |      Return str(self).
+     |
+     |  clear_halt(self)
+     |      Clear the halt/status condition of the endpoint.
+     |
+     |  read(self, size_or_buffer, timeout=None)
+     |      Read data from the endpoint.
+     |
+     |      The parameter size_or_buffer is either the number of bytes to
+     |      read or an array object where the data will be put in and timeout is the
+     |      time limit of the operation. The transfer type and endpoint address
+     |      are automatically inferred.
+     |
+     |      The method returns either an array object or the number of bytes
+     |      actually read.
+     |
+     |      For details, see the Device.read() method.
+     |
+     |  write(self, data, timeout=None)
+     |      Write data to the endpoint.
+     |
+     |      The parameter data contains the data to be sent to the endpoint and
+     |      timeout is the time limit of the operation. The transfer type and
+     |      endpoint address are automatically inferred.
+     |
+     |      The method returns the number of bytes written.
+     |
+     |      For details, see the Device.write() method.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+    class Interface(builtins.object)
+     |  Interface(device, interface=0, alternate_setting=0, configuration=0)
+     |
+     |  Represent an interface object.
+     |
+     |  This class contains all fields of the Interface Descriptor
+     |  according to the USB Specification. You may access them as class
+     |  properties. For example, to access the field bInterfaceNumber
+     |  of the interface descriptor, you can do so:
+     |
+     |  >>> import usb.core
+     |  >>> dev = usb.core.find()
+     |  >>> for cfg in dev:
+     |  >>>     for i in cfg:
+     |  >>>         print i.bInterfaceNumber
+     |
+     |  Methods defined here:
+     |
+     |  __getitem__(self, index)
+     |      Return the Endpoint object in the given position.
+     |
+     |  __init__(self, device, interface=0, alternate_setting=0, configuration=0)
+     |      Initialize the interface object.
+     |
+     |      The device parameter is the device object returned by the find()
+     |      function. The configuration parameter is the logical index of the
+     |      configuration (not the bConfigurationValue field). The interface
+     |      parameter is the interface logical index (not the bInterfaceNumber
+     |      field) and alternate_setting is the alternate setting logical index
+     |      (not the bAlternateSetting value). An interface may have only one
+     |      alternate setting. In this case, the alternate_setting parameter
+     |      should be zero.  By "logical index" we mean the relative order of
+     |      the configurations returned by the peripheral as a result of
+     |      GET_DESCRIPTOR request.
+     |
+     |  __iter__(self)
+     |      Iterate over all endpoints of the interface.
+     |
+     |  __repr__(self)
+     |      Return repr(self).
+     |
+     |  __str__(self)
+     |      Show all information for the interface.
+     |
+     |  endpoints(self)
+     |      Return a tuple of the interface endpoints.
+     |
+     |  set_altsetting(self)
+     |      Set the interface alternate setting.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+    class NoBackendError(builtins.ValueError)
+     |  Exception class when a valid backend is not found.
+     |
+     |  Method resolution order:
+     |      NoBackendError
+     |      builtins.ValueError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors defined here:
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ValueError:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ValueError:
+     |
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |
+     |  __setstate__(...)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(...)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class USBError(builtins.OSError)
+     |  USBError(strerror, error_code=None, errno=None)
+     |
+     |  Exception class for USB errors.
+     |
+     |  Backends must raise this exception when USB related errors occur.  The
+     |  backend specific error code is available through the 'backend_error_code'
+     |  member variable.
+     |
+     |  Method resolution order:
+     |      USBError
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, strerror, error_code=None, errno=None)
+     |      Initialize the object.
+     |
+     |      This initializes the USBError object. The strerror and errno are passed
+     |      to the parent object. The error_code parameter is attributed to the
+     |      backend_error_code member variable.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |
+     |  characters_written
+     |
+     |  errno
+     |      POSIX exception code
+     |
+     |  filename
+     |      exception filename
+     |
+     |  filename2
+     |      second exception filename
+     |
+     |  strerror
+     |      exception strerror
+     |
+     |  winerror
+     |      Win32 exception code
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |
+     |  __setstate__(...)
+     |
+     |  add_note(...)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class USBTimeoutError(USBError)
+     |  USBTimeoutError(strerror, error_code=None, errno=None)
+     |
+     |  Exception class for connection timeout errors.
+     |
+     |  Backends must raise this exception when a call on a USB connection returns
+     |  a timeout error code.
+     |
+     |  Method resolution order:
+     |      USBTimeoutError
+     |      USBError
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Methods inherited from USBError:
+     |
+     |  __init__(self, strerror, error_code=None, errno=None)
+     |      Initialize the object.
+     |
+     |      This initializes the USBError object. The strerror and errno are passed
+     |      to the parent object. The error_code parameter is attributed to the
+     |      backend_error_code member variable.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from USBError:
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |
+     |  characters_written
+     |
+     |  errno
+     |      POSIX exception code
+     |
+     |  filename
+     |      exception filename
+     |
+     |  filename2
+     |      second exception filename
+     |
+     |  strerror
+     |      exception strerror
+     |
+     |  winerror
+     |      Win32 exception code
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |
+     |  __setstate__(...)
+     |
+     |  add_note(...)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+FUNCTIONS
+    find(find_all=False, backend=None, custom_match=None, **args)
+        Find an USB device and return it.
+
+        find() is the function used to discover USB devices.  You can pass as
+        arguments any combination of the USB Device Descriptor fields to match a
+        device. For example:
+
+        find(idVendor=0x3f4, idProduct=0x2009)
+
+        will return the Device object for the device with idVendor field equals
+        to 0x3f4 and idProduct equals to 0x2009.
+
+        If there is more than one device which matchs the criteria, the first one
+        found will be returned. If a matching device cannot be found the function
+        returns None. If you want to get all devices, you can set the parameter
+        find_all to True, then find will return an iterator with all matched devices.
+        If no matching device is found, it will return an empty iterator. Example:
+
+        for printer in find(find_all=True, bDeviceClass=7):
+            print (printer)
+
+        This call will get all the USB printers connected to the system.  (actually
+        may be not, because some devices put their class information in the
+        Interface Descriptor).
+
+        You can also use a customized match criteria:
+
+        dev = find(custom_match = lambda d: d.idProduct=0x3f4 and d.idvendor=0x2009)
+
+        A more accurate printer finder using a customized match would be like
+        so:
+
+        def is_printer(dev):
+            import usb.util
+            if dev.bDeviceClass == 7:
+                return True
+            for cfg in dev:
+                if usb.util.find_descriptor(cfg, bInterfaceClass=7) is not None:
+                    return True
+
+        for printer in find(find_all=True, custom_match = is_printer):
+            print (printer)
+
+        If you want to use find as a 'list all devices' function, just call
+        it with find_all = True:
+
+        devices = list(find(find_all=True))
+
+        Finally, you can pass a custom backend to the find function:
+
+        find(backend = MyBackend())
+
+        PyUSB has builtin backends for libusb 0.1, libusb 1.0 and OpenUSB.  If you
+        do not supply a backend explicitly, find() function will select one of the
+        predefineds backends according to system availability.
+
+        Backends are explained in the usb.backend module.
+
+    show_devices(verbose=False, **kwargs)
+        Show information about connected devices.
+
+        The verbose flag sets to verbose or not.
+        **kwargs are passed directly to the find() function.
+
+DATA
+    __all__ = ['Device', 'Configuration', 'Interface', 'Endpoint', 'USBErr...
+
+AUTHOR
+    Wander Lairson Costa
+
+FILE
+    c:\python311\lib\site-packages\usb\core.py
+
+
+
+
+
+
+
+
+/--------------------------------------------------------------------------------------------------------------------------------/
+
+
+
+
+
+
+
+
+Help on module usb.util in usb:
+
+NAME
+    usb.util - usb.util - Utility functions.
+
+DESCRIPTION
+    This module exports:
+
+    endpoint_address - return the endpoint absolute address.
+    endpoint_direction - return the endpoint transfer direction.
+    endpoint_type - return the endpoint type
+    ctrl_direction - return the direction of a control transfer
+    build_request_type - build a bmRequestType field of a control transfer.
+    find_descriptor - find an inner descriptor.
+    claim_interface - explicitly claim an interface.
+    release_interface - explicitly release an interface.
+    dispose_resources - release internal resources allocated by the object.
+    get_langids - retrieve the list of supported string languages from the device.
+    get_string - retrieve a string descriptor from the device.
+
+FUNCTIONS
+    build_request_type(direction, type, recipient)
+        Build a bmRequestType field for control requests.
+
+        These is a conventional function to build a bmRequestType
+        for a control request.
+
+        The direction parameter can be CTRL_OUT or CTRL_IN.
+        The type parameter can be CTRL_TYPE_STANDARD, CTRL_TYPE_CLASS,
+        CTRL_TYPE_VENDOR or CTRL_TYPE_RESERVED values.
+        The recipient can be CTRL_RECIPIENT_DEVICE, CTRL_RECIPIENT_INTERFACE,
+        CTRL_RECIPIENT_ENDPOINT or CTRL_RECIPIENT_OTHER.
+
+        Return the bmRequestType value.
+
+    claim_interface(device, interface)
+        Explicitly claim an interface.
+
+        PyUSB users normally do not have to worry about interface claiming,
+        as the library takes care of it automatically. But there are situations
+        where you need deterministic interface claiming. For these uncommon
+        cases, you can use claim_interface.
+
+        If the interface is already claimed, either through a previously call
+        to claim_interface or internally by the device object, nothing happens.
+
+    create_buffer(length)
+        Create a buffer to be passed to a read function.
+
+        A read function may receive an out buffer so the data
+        is read inplace and the object can be reused, avoiding
+        the overhead of creating a new object at each new read
+        call. This function creates a compatible sequence buffer
+        of the given length.
+
+    ctrl_direction(bmRequestType)
+        Return the direction of a control request.
+
+        The bmRequestType parameter is the value of the
+        bmRequestType field of a control transfer.
+        The possible return values are CTRL_OUT or CTRL_IN.
+
+    dispose_resources(device)
+        Release internal resources allocated by the object.
+
+        Sometimes you need to provide deterministic resources
+        freeing, for example to allow another application to
+        talk to the device. As Python does not provide deterministic
+        destruction, this function releases all internal resources
+        allocated by the device, like device handle and interface
+        policy.
+
+        After calling this function, you can continue using the device
+        object normally. If the resources will be necessary again, it
+        will be allocated automatically.
+
+    endpoint_address(address)
+        Return the endpoint absolute address.
+
+        The address parameter is the bEndpointAddress field
+        of the endpoint descriptor.
+
+    endpoint_direction(address)
+        Return the endpoint direction.
+
+        The address parameter is the bEndpointAddress field
+        of the endpoint descriptor.
+        The possible return values are ENDPOINT_OUT or ENDPOINT_IN.
+
+    endpoint_type(bmAttributes)
+        Return the transfer type of the endpoint.
+
+        The bmAttributes parameter is the bmAttributes field
+        of the endpoint descriptor.
+        The possible return values are: ENDPOINT_TYPE_CTRL,
+        ENDPOINT_TYPE_ISO, ENDPOINT_TYPE_BULK or ENDPOINT_TYPE_INTR.
+
+    find_descriptor(desc, find_all=False, custom_match=None, **args)
+        Find an inner descriptor.
+
+        find_descriptor works in the same way as the core.find() function does,
+        but it acts on general descriptor objects. For example, suppose you
+        have a Device object called dev and want a Configuration of this
+        object with its bConfigurationValue equals to 1, the code would
+        be like so:
+
+        >>> cfg = util.find_descriptor(dev, bConfigurationValue=1)
+
+        You can use any field of the Descriptor as a match criteria, and you
+        can supply a customized match just like core.find() does. The
+        find_descriptor function also accepts the find_all parameter to get
+        an iterator instead of just one descriptor.
+
+    get_langids(dev)
+        Retrieve the list of supported Language IDs from the device.
+
+        Most client code should not call this function directly, but instead use
+        the langids property on the Device object, which will call this function as
+        needed and cache the result.
+
+        USB LANGIDs are 16-bit integers familiar to Windows developers, where
+        for example instead of en-US you say 0x0409. See the file USB_LANGIDS.pdf
+        somewhere on the usb.org site for a list, which does not claim to be
+        complete. It requires "system software must allow the enumeration and
+        selection of LANGIDs that are not currently on this list." It also requires
+        "system software should never request a LANGID not defined in the LANGID
+        code array (string index = 0) presented by a device." Client code can
+        check this tuple before issuing string requests for a specific language ID.
+
+        dev is the Device object whose supported language IDs will be retrieved.
+
+        The return value is a tuple of integer LANGIDs, possibly empty if the
+        device does not support strings at all (which USB 3.1 r1.0 section
+        9.6.9 allows). In that case client code should not request strings at all.
+
+        A USBError may be raised from this function for some devices that have no
+        string support, instead of returning an empty tuple. The accessor for the
+        langids property on Device catches that case and supplies an empty tuple,
+        so client code can ignore this detail by using the langids property instead
+        of directly calling this function.
+
+    get_string(dev, index, langid=None)
+        Retrieve a string descriptor from the device.
+
+        dev is the Device object which the string will be read from.
+
+        index is the string descriptor index and langid is the Language
+        ID of the descriptor. If langid is omitted, the string descriptor
+        of the first Language ID will be returned.
+
+        Zero is never the index of a real string. The USB spec allows a device to
+        use zero in a string index field to indicate that no string is provided.
+        So the caller does not have to treat that case specially, this function
+        returns None if passed an index of zero, and generates no traffic
+        to the device.
+
+        The return value is the unicode string present in the descriptor, or None
+        if the requested index was zero.
+
+    release_interface(device, interface)
+        Explicitly release an interface.
+
+        This function is used to release an interface previously claimed,
+        either through a call to claim_interface or internally by the
+
+
+
+
+
+
+
+
+/--------------------------------------------------------------------------------------------------------------------------------/
+
+
+
+
+
+
+
+Help on Device in module usb.core object:
+
+class Device(usb._objfinalizer.AutoFinalizedObject)
+ |  Device(dev, backend)
+ |
+ |  Device object.
+ |
+ |  This class contains all fields of the Device Descriptor according to the
+ |  USB Specification. You may access them as class properties.  For example,
+ |  to access the field bDescriptorType of the device descriptor, you can
+ |  do so:
+ |
+ |  >>> import usb.core
+ |  >>> dev = usb.core.find()
+ |  >>> dev.bDescriptorType
+ |
+ |  Additionally, the class provides methods to communicate with the hardware.
+ |  Typically, an application will first call the set_configuration() method to
+ |  put the device in a known configured state, optionally call the
+ |  set_interface_altsetting() to select the alternate setting (if there is
+ |  more than one) of the interface used, and call the write() and read()
+ |  methods to send and receive data, respectively.
+ |
+ |  When working in a new hardware, the first try could be like this:
+ |
+ |  >>> import usb.core
+ |  >>> dev = usb.core.find(idVendor=myVendorId, idProduct=myProductId)
+ |  >>> dev.set_configuration()
+ |  >>> dev.write(1, 'test')
+ |
+ |  This sample finds the device of interest (myVendorId and myProductId should
+ |  be replaced by the corresponding values of your device), then configures
+ |  the device (by default, the configuration value is 1, which is a typical
+ |  value for most devices) and then writes some data to the endpoint 0x01.
+ |
+ |  Timeout values for the write, read and ctrl_transfer methods are specified
+ |  in miliseconds. If the parameter is omitted, Device.default_timeout value
+ |  will be used instead. This property can be set by the user at anytime.
+ |
+ |  Method resolution order:
+ |      Device
+ |      usb._objfinalizer.AutoFinalizedObject
+ |      usb._objfinalizer._AutoFinalizedObjectBase
+ |      builtins.object
+ |
+ |  Methods defined here:
+ |
+ |  __eq__(self, other)
+ |      Return self==value.
+ |
+ |  __getitem__(self, index)
+ |      Return the Configuration object in the given position.
+ |
+ |  __hash__(self)
+ |      Return hash(self).
+ |
+ |  __init__(self, dev, backend)
+ |      Initialize the Device object.
+ |
+ |      Library users should normally get a Device instance through
+ |      the find function. The dev parameter is the identification
+ |      of a device to the backend and its meaning is opaque outside
+ |      of it. The backend parameter is a instance of a backend
+ |      object.
+ |
+ |  __iter__(self)
+ |      Iterate over all configurations of the device.
+ |
+ |  __repr__(self)
+ |      Return repr(self).
+ |
+ |  __str__(self)
+ |      Return str(self).
+ |
+ |  attach_kernel_driver(self, interface)
+ |      Re-attach an interface's kernel driver, which was previously
+ |      detached using detach_kernel_driver().
+ |
+ |      The interface parameter is the device interface number to attach the
+ |      driver to.
+ |
+ |  clear_halt(self, ep)
+ |      Clear the halt/stall condition for the endpoint ep.
+ |
+ |  configurations(self)
+ |      Return a tuple of the device configurations.
+ |
+ |  ctrl_transfer(self, bmRequestType, bRequest, wValue=0, wIndex=0, data_or_wLength=None, timeout=None)
+ |      Do a control transfer on the endpoint 0.
+ |
+ |      This method is used to issue a control transfer over the endpoint 0
+ |      (endpoint 0 is required to always be a control endpoint).
+ |
+ |      The parameters bmRequestType, bRequest, wValue and wIndex are the same
+ |      of the USB Standard Control Request format.
+ |
+ |      Control requests may or may not have a data payload to write/read.
+ |      In cases which it has, the direction bit of the bmRequestType
+ |      field is used to infer the desired request direction. For
+ |      host to device requests (OUT), data_or_wLength parameter is
+ |      the data payload to send, and it must be a sequence type convertible
+ |      to an array object. In this case, the return value is the number
+ |      of bytes written in the data payload. For device to host requests
+ |      (IN), data_or_wLength is either the wLength parameter of the control
+ |      request specifying the number of bytes to read in data payload, and
+ |      the return value is an array object with data read, or an array
+ |      object which the data will be read to, and the return value is the
+ |      number of bytes read.
+ |
+ |  detach_kernel_driver(self, interface)
+ |      Detach a kernel driver.
+ |
+ |      If successful, you will then be able to perform I/O.
+ |
+ |      The interface parameter is the device interface number to detach the
+ |      driver from.
+ |
+ |  get_active_configuration(self)
+ |      Return a Configuration object representing the current
+ |      configuration set.
+ |
+ |  is_kernel_driver_active(self, interface)
+ |      Determine if there is kernel driver associated with the interface.
+ |
+ |      If a kernel driver is active, the object will be unable to perform
+ |      I/O.
+ |
+ |      The interface parameter is the device interface number to check.
+ |
+ |  read(self, endpoint, size_or_buffer, timeout=None)
+ |      Read data from the endpoint.
+ |
+ |      This method is used to receive data from the device. The endpoint
+ |      parameter corresponds to the bEndpointAddress member whose endpoint
+ |      you want to communicate with. The size_or_buffer parameter either
+ |      tells how many bytes you want to read or supplies the buffer to
+ |      receive the data (it *must* be an object of the type array).
+ |
+ |      The timeout is specified in miliseconds.
+ |
+ |      If the size_or_buffer parameter is the number of bytes to read, the
+ |      method returns an array object with the data read. If the
+ |      size_or_buffer parameter is an array object, it returns the number
+ |      of bytes actually read.
+ |
+ |  reset(self)
+ |      Reset the device.
+ |
+ |  set_configuration(self, configuration=None)
+ |      Set the active configuration.
+ |
+ |      The configuration parameter is the bConfigurationValue field of the
+ |      configuration you want to set as active. If you call this method
+ |      without parameter, it will use the first configuration found.  As a
+ |      device hardly ever has more than one configuration, calling the method
+ |      without arguments is enough to get the device ready.
+ |
+ |  set_interface_altsetting(self, interface=None, alternate_setting=None)
+ |      Set the alternate setting for an interface.
+ |
+ |      When you want to use an interface and it has more than one alternate
+ |      setting, you should call this method to select the appropriate
+ |      alternate setting. If you call the method without one or the two
+ |      parameters, it will be selected the first one found in the Device in
+ |      the same way of the set_configuration method.
+ |
+ |      Commonly, an interface has only one alternate setting and this call is
+ |      not necessary. For most devices, either it has more than one
+ |      alternate setting or not, it is not harmful to make a call to this
+ |      method with no arguments, as devices will silently ignore the request
+ |      when there is only one alternate setting, though the USB Spec allows
+ |      devices with no additional alternate setting return an error to the
+ |      Host in response to a SET_INTERFACE request.
+ |
+ |      If you are in doubt, you may want to call it with no arguments wrapped
+ |      by a try/except clause:
+ |
+ |      >>> try:
+ |      >>>     dev.set_interface_altsetting()
+ |      >>> except usb.core.USBError:
+ |      >>>     pass
+ |
+ |  write(self, endpoint, data, timeout=None)
+ |      Write data to the endpoint.
+ |
+ |      This method is used to send data to the device. The endpoint parameter
+ |      corresponds to the bEndpointAddress member whose endpoint you want to
+ |      communicate with.
+ |
+ |      The data parameter should be a sequence like type convertible to
+ |      the array type (see array module).
+ |
+ |      The timeout is specified in miliseconds.
+ |
+ |      The method returns the number of bytes written.
+ |
+ |  ----------------------------------------------------------------------
+ |  Readonly properties defined here:
+ |
+ |  backend
+ |      Return the backend being used by the device.
+ |
+ |  langids
+ |      Return the USB device's supported language ID codes.
+ |
+ |      These are 16-bit codes familiar to Windows developers, where for
+ |      example instead of en-US you say 0x0409. USB_LANGIDS.pdf on the usb.org
+ |      developer site for more info. String requests using a LANGID not
+ |      in this array should not be sent to the device.
+ |
+ |      This property will cause some USB traffic the first time it is accessed
+ |      and cache the resulting value for future use.
+ |
+ |  manufacturer
+ |      Return the USB device's manufacturer string descriptor.
+ |
+ |      This property will cause some USB traffic the first time it is accessed
+ |      and cache the resulting value for future use.
+ |
+ |  parent
+ |      Return the parent device.
+ |
+ |  product
+ |      Return the USB device's product string descriptor.
+ |
+ |      This property will cause some USB traffic the first time it is accessed
+ |      and cache the resulting value for future use.
+ |
+ |  serial_number
+ |      Return the USB device's serial number string descriptor.
+ |
+ |      This property will cause some USB traffic the first time it is accessed
+ |
+ |      Returns: new object instance
+ |
+ |      Arguments:
+ |      * *args, **kwargs -- passed to the parent instance creator
+ |                           (which ignores them)
+ |
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from usb._objfinalizer._AutoFinalizedObjectBase:
+ |
+ |  __del__(self)
+ |
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from usb._objfinalizer._AutoFinalizedObjectBase:
+ |
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |
+ |  __weakref__
+ |      list of weak references to the object (if defined)
