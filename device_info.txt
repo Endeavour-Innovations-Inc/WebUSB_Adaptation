@@ -1,0 +1,477 @@
+DEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 Error Accessing String
+ iProduct               :    0x2 Error Accessing String
+ iSerialNumber          :    0x3 Error Accessing String
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 Error Accessing StringDEVICE ID 0781:5591 on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x300 USB 3.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :    0x9 (9 bytes)
+ idVendor               : 0x0781
+ idProduct              : 0x5591
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 Error Accessing String
+ iProduct               :    0x2 Error Accessing String
+ iSerialNumber          :    0x3 Error Accessing String
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 224 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x2c (44 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0x80 Bus Powered
+   bMaxPower            :   0x70 (224 mA)
+    INTERFACE 0: Mass Storage ==============================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x2
+     bInterfaceClass    :    0x8 Mass Storage
+     bInterfaceSubClass :    0x6
+     bInterfaceProtocol :   0x50
+     iInterface         :    0x0 
+      ENDPOINT 0x81: Bulk IN ===============================
+       bLength          :    0x7 (7 bytes)
+       bDescriptorType  :    0x5 Endpoint
+       bEndpointAddress :   0x81 IN
+       bmAttributes     :    0x2 Bulk
+       wMaxPacketSize   :  0x400 (1024 bytes)
+       bInterval        :    0x0
+      ENDPOINT 0x2: Bulk OUT ===============================
+       bLength          :    0x7 (7 bytes)
+       bDescriptorType  :    0x5 Endpoint
+       bEndpointAddress :    0x2 OUT
+       bmAttributes     :    0x2 Bulk
+       wMaxPacketSize   :  0x400 (1024 bytes)
+       bInterval        :    0x0DEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 NXP
+ iProduct               :    0x2 LPC
+ iSerialNumber          :    0x3 ABCD
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 DFUDEVICE ID 1fc9:000c on Bus 002 Address 003 =================
+ bLength                :   0x12 (18 bytes)
+ bDescriptorType        :    0x1 Device
+ bcdUSB                 :  0x200 USB 2.0
+ bDeviceClass           :    0x0 Specified at interface
+ bDeviceSubClass        :    0x0
+ bDeviceProtocol        :    0x0
+ bMaxPacketSize0        :   0x40 (64 bytes)
+ idVendor               : 0x1fc9
+ idProduct              : 0x000c
+ bcdDevice              :  0x100 Device 1.0
+ iManufacturer          :    0x1 Error Accessing String
+ iProduct               :    0x2 Error Accessing String
+ iSerialNumber          :    0x3 Error Accessing String
+ bNumConfigurations     :    0x1
+  CONFIGURATION 1: 100 mA ==================================
+   bLength              :    0x9 (9 bytes)
+   bDescriptorType      :    0x2 Configuration
+   wTotalLength         :   0x1b (27 bytes)
+   bNumInterfaces       :    0x1
+   bConfigurationValue  :    0x1
+   iConfiguration       :    0x0 
+   bmAttributes         :   0xc0 Self Powered
+   bMaxPower            :   0x32 (100 mA)
+    INTERFACE 0: Application Specific ======================
+     bLength            :    0x9 (9 bytes)
+     bDescriptorType    :    0x4 Interface
+     bInterfaceNumber   :    0x0
+     bAlternateSetting  :    0x0
+     bNumEndpoints      :    0x0
+     bInterfaceClass    :   0xfe Application Specific
+     bInterfaceSubClass :    0x1
+     bInterfaceProtocol :    0x1
+     iInterface         :    0x4 Error Accessing String

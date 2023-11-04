@@ -5,6 +5,7 @@ import csv
 
 from scipy import signal
 
+"""
 #pyusb setup
 import usb.core
 import usb.util
@@ -38,8 +39,8 @@ for bRequest in range(255):
     except:
         # failed to get data for this request
         pass
-
 """
+
 
 t_data = []
 v_data = []
@@ -105,8 +106,8 @@ class SnappingCursor:
             self.ax.figure.canvas.draw()
 
 fig, ax = plt.subplots()
-ax.set_title('Snapping cursor')
-#line, = ax.plot(t_data, v_data)
+ax.set_title('Scipy Filtering (Simulated Data)')
+line, = ax.plot(t_data, v_data)
 line, = ax.plot(t_data, y_filt)
 snap_cursor = SnappingCursor(ax, line)
 fig.canvas.mpl_connect('motion_notify_event', snap_cursor.on_mouse_move)
@@ -119,7 +120,7 @@ MouseEvent(
 
 plt.show()
 
-"""
+
 
 
 

@@ -10,7 +10,7 @@ B = B(:);
 C = 0.5*(1.15 + sawtooth(t,1/2));
 C = C(:);
 
-E = 0.5*(1.15 + sin(t) + randn(size(t))/30);
+E = 0.5*(1.15 + sin(t) + randn(size(t))/20);
 E = E(:);
 
 header = ["t", "data"];
