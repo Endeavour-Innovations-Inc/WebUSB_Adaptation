@@ -38,7 +38,7 @@ def get_device_info():
             pass
 
 def get_samples():
-    voltage_data = [];
+    voltage_data = []
     for i in range(255):
         ret = dev.read(0x1, 0x40, timeout=None)
         voltage_data.append(ret)
