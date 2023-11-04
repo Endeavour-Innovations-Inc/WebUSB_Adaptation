@@ -27,6 +27,7 @@ try:
 except USBError:
     pass
 
+"""
 def get_device_info():
     for bRequest in range(255):
         try:
@@ -36,11 +37,16 @@ def get_device_info():
         except:
             # failed to get data for this request
             pass
+"""
 
 def get_samples():
     voltage_data = []
     for i in range(255):
-        ret = dev.read(0x1, 0x40, timeout=None)
+        ret = dev.read(0x1, 0x40)
+        except usb.core.USBError as e:
+            ret = None
+            if e.args == ('Operation timed out',):
+                continue
         voltage_data.append(ret)
     return voltage_data
 

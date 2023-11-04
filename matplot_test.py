@@ -3,7 +3,7 @@ from matplotlib.backend_bases import MouseEvent
 import numpy as np
 import csv
 
-from scipy import signal
+#from scipy import signal
 
 import usb_reader
 
@@ -22,10 +22,11 @@ with open('noisy_sin_gen.csv', newline='') as csvfile:
 print(t_data)
 print(v_data)
 
-
+"""
 b, a = signal.butter(3, 0.025)
 zi = signal.lfilter_zi(b, a)
 y_filt = signal.filtfilt(b, a, v_data)
+"""
 
 class SnappingCursor:
     
