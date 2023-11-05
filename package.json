@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "webusb": "^2.2.0"
+  }
+}

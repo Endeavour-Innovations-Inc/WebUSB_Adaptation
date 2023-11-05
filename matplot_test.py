@@ -21,7 +21,7 @@ with open('noisy_sin_gen.csv', newline='') as csvfile:
 """
 
 v_data = scope_interface.get_samples()
-t_data = np.arange(0, 4000, 1)
+t_data = np.arange(0, 4093, 1)
 
 #print(header)
 print(t_data)

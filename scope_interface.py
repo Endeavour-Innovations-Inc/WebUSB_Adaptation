@@ -44,10 +44,10 @@ def get_device_info():
 
 def get_samples():
     samples = []
-    for i in range(255):
+    for i in range(4094):
         while True:
             try:
-                data = dev.read(0x1, 0x40)
+                data = dev.read(0x1, 0x4)
             except usb.core.USBTimeoutError as e:
                 data = None
                 continue
