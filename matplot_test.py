@@ -5,18 +5,23 @@ import csv
 
 #from scipy import signal
 
-import usb_reader
+import scope_interface
 
 
 t_data = []
-v_data = usb_reader.get_samples()
+v_data = []
 
+"""
 with open('noisy_sin_gen.csv', newline='') as csvfile:
     reader = csv.reader(csvfile, delimiter=',', quoting=csv.QUOTE_NONE)
     header = next(reader, None)  # skip the headers, save to 'header'
     for row in reader:
-        t_data.append(float(row[0]))
-        #v_data.append(float(row[1]))
+        #t_data.append(float(row[0]))
+        v_data.append(float(row[1]))
+"""
+
+v_data = scope_interface.get_samples()
+t_data = np.arange(0, 4000, 1)
 
 #print(header)
 print(t_data)

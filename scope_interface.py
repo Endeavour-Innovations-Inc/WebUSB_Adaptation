@@ -1,6 +1,7 @@
 import serial
+import numpy as np
 
-# -----------------------  USB example ----------------------- 
+# -----------------------  USB example ----------------------- #
 
 #pyusb setup
 import usb.core
@@ -20,11 +21,13 @@ print(dev)
 cfg = usb.util.find_descriptor(dev, bConfigurationValue=1)
 cfg.set()
 
+usb.util.claim_interface(dev, 0)
+
 #print(cfg)
 
 try:
     dev.set_interface_altsetting(interface = 0, alternate_setting = 0x0)
-except USBError:
+except usb.core.USBError:
     pass
 
 """
@@ -40,17 +43,25 @@ def get_device_info():
 """
 
 def get_samples():
-    voltage_data = []
+    samples = []
     for i in range(255):
-        ret = dev.read(0x1, 0x40)
-        except usb.core.USBError as e:
-            ret = None
-            if e.args == ('Operation timed out',):
+        while True:
+            try:
+                data = dev.read(0x1, 0x40)
+            except usb.core.USBTimeoutError as e:
+                data = None
                 continue
-        voltage_data.append(ret)
-    return voltage_data
+                #if e.args == ('Operation timed out',):
+                   #continue
+            break
+        samples.extend(data)
+    return samples
 
-# ----------------------- serial port example ----------------------- 
+def configure_scope(user_config):
+    dev.write(0x81, user_config)
+
+
+# ----------------------- serial port example ----------------------- #
 
 """
 def simulate_uart_data(data_size=64):
