@@ -1,5 +1,6 @@
 import serial
 import numpy as np
+import sample_convert
 
 # -----------------------  USB example ----------------------- #
 
@@ -44,10 +45,10 @@ def get_device_info():
 
 def get_samples():
     samples = []
-    for i in range(4094):
+    for i in range(64):
         while True:
             try:
-                data = dev.read(0x1, 0x4)
+                data = dev.read(0x1, 0x40)
             except usb.core.USBTimeoutError as e:
                 data = None
                 continue

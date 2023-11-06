@@ -6,6 +6,7 @@ import csv
 #from scipy import signal
 
 import scope_interface
+import sample_convert
 
 
 t_data = []
