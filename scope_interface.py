@@ -53,6 +53,7 @@ def get_samples():
                 data = dev.read(0x01, 0x40, 1000)
             except usb.core.USBTimeoutError as e:
                 data = None
+                print('Timeout encountered - continuing')
                 continue
         samples.extend(data)
     return samples
