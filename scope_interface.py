@@ -25,7 +25,23 @@ print(dev)
 cfg = usb.util.find_descriptor(dev, bConfigurationValue=1)
 cfg.set()
 
-usb.util.claim_interface(dev, 0)
+
+#get first ENDPOINT_OUT address
+"""
+# get an endpoint instance
+cfg = dev.get_active_configuration()
+intf = cfg[(0,0)]
+
+ep = usb.util.find_descriptor(
+    intf,
+    # match the first OUT endpoint
+    custom_match = \
+    lambda e: \
+        usb.util.endpoint_direction(e.bEndpointAddress) == \
+        usb.util.ENDPOINT_OUT)
+eaddr = ep.bEndpointAddress
+"""
+
 
 #print(cfg)
 
