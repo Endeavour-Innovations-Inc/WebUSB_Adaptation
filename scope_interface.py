@@ -15,7 +15,9 @@ dev = usb.core.find(backend=backend)
 
 dev = usb.core.find(idVendor=0x1fc9, idProduct=0x008A)
 if dev is None:
-    raise ValueError('Our device is not connected')
+    raise ValueError('Simple Scope is not connected!')
+else:
+    print("Simple Scope Connected!")
 
 print(dev)
 
@@ -45,18 +47,17 @@ def get_device_info():
 
 def get_samples():
     samples = []
-    for i in range(64):
+    for i in range(63):
         while True:
             try:
-                data = dev.read(0x1, 0x40)
+                data = dev.read(0x01, 0x40, 1000)
             except usb.core.USBTimeoutError as e:
                 data = None
                 continue
-                #if e.args == ('Operation timed out',):
-                   #continue
-            break
         samples.extend(data)
     return samples
+
+    
 
 def configure_scope(user_config):
     dev.write(0x81, user_config)
