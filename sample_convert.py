@@ -14,10 +14,11 @@ def twos_comp(val, bits):
         val = val - (1 << bits)        # compute negative value
     return val                         # return positive value as is
 
-
+"""
 samp = 'AFF91FF9'
 #output = get_dec(samp[1:4])
 #output = get_dec(samp[5:8])
 
 print(get_dec(samp[1:4]))
 print(get_dec(samp[5:8]))
+"""

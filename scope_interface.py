@@ -11,9 +11,10 @@ import usb.backend.libusb1
 import sys
 
 backend = usb.backend.libusb1.get_backend(find_library=lambda x: "./libusb-1.0.dll")
-dev = usb.core.find(backend=backend)
 
-dev = usb.core.find(idVendor=0x1fc9, idProduct=0x008A)
+dev = usb.core.find(backend=backend)
+dev = usb.core.find(idVendor=0x1FC9, idProduct=0x000C)
+
 if dev is None:
     raise ValueError('Simple Scope is not connected!')
 else:
@@ -33,6 +34,7 @@ try:
 except usb.core.USBError:
     pass
 
+
 """
 def get_device_info():
     for bRequest in range(255):
@@ -50,6 +52,7 @@ def get_samples():
     for i in range(63):
         while True:
             try:
+                #dev.write(0x82, 'prime', 1000)     #uncomment this line to manually write a value into the interrupt endpoint
                 data = dev.read(0x01, 0x40, 1000)
             except usb.core.USBTimeoutError as e:
                 data = None
