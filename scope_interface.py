@@ -1,4 +1,3 @@
-import numpy as np
 
 # -----------------------  USB example ----------------------- #
 
@@ -67,7 +66,7 @@ def get_samples():
     samples_bin = []
     for i in range(1024):
         data = dev.read(0x81, 0x40, 1000)
-        print(str(i) + " " + str(data))
+        #print(str(i) + " " + str(data))
         sample_temp.extend(data)
 
     datasize = len(sample_temp)
@@ -76,14 +75,14 @@ def get_samples():
         b0 = to_bin(sample_temp[j])
         b1 = to_bin(sample_temp[j+1])
 
-        twelve = "".join([b1[5:8], b0])
+        twelve = "".join([b1[4:8], b0])
         samples_bin.append(twelve)
 
         point = twos_comp(int(twelve,2), len(twelve))
 
         samples.append(point)
 
-        print(samples_bin)
+        #print(samples_bin)
 
     return samples
 
