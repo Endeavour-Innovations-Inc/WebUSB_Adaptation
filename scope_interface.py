@@ -50,6 +50,7 @@ except usb.core.USBError:
     pass
 
 
+#Device control transfer request
 """
 def get_device_info():
     for bRequest in range(255):
@@ -64,7 +65,7 @@ def get_device_info():
 
 def get_samples():
     samples = []
-    for i in range(8):
+    for i in range(1024):
         while True:
             try:
                 #dev.write(0x82, 'prime', 1000)     #uncomment this line to manually write a value into the interrupt endpoint
@@ -79,7 +80,7 @@ def get_samples():
 
 
 def configure_scope(user_config):
-    dev.write(0x81, user_config)
+    dev.write(0x01, user_config)
 
 
 def to_dec(sample):

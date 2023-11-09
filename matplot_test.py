@@ -22,11 +22,12 @@ with open('noisy_sin_gen.csv', newline='') as csvfile:
 """
 
 v_data = scope_interface.get_samples()
+print(v_data)
+
 t_data = np.arange(0, 4095, 1)
 
 #print(header)
 print(t_data)
-print(v_data)
 
 """
 b, a = signal.butter(3, 0.025)
