@@ -70,12 +70,13 @@ def get_samples():
             try:
                 #dev.write(0x82, 'prime', 1000)     #uncomment this line to manually write a value into the interrupt endpoint
                 data = dev.read(0x81, 0x40, 1000)
+                print(data)
             except usb.core.USBTimeoutError as e:
                 data = None
-                print('Timeout encountered - continuing')
-                continue
-        print(data)
+                print(e + ' - continuing')
+                pass
         samples.extend(data)
+        #print(samples)
     return samples
 
 
