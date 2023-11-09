@@ -66,15 +66,19 @@ def get_device_info():
 def get_samples():
     samples = []
     for i in range(1024):
+        """
         while True:
             try:
                 #dev.write(0x82, 'prime', 1000)     #uncomment this line to manually write a value into the interrupt endpoint
                 data = dev.read(0x81, 0x40, 1000)
-                print(data)
+                print(i + " " + data)
             except usb.core.USBTimeoutError as e:
                 data = None
-                print(e + ' - continuing')
+                print(str(e) + ' - continuing')
                 pass
+        """
+        data = dev.read(0x81, 0x40, 1000)
+        print(str(i) + " " + str(data))
         samples.extend(data)
         #print(samples)
     return samples
