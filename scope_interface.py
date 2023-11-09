@@ -84,7 +84,9 @@ def get_samples():
         #print(samples)
         sample_temp.extend(data)
 
-    for j in sample_temp
+    datasize = len(sample_temp)
+
+    for j in range(datasize):
         b0 = to_bin(sample_temp[j])
         b1 = to_bin(sample_temp[j+1])
 
@@ -92,7 +94,7 @@ def get_samples():
 
         point = twos_comp(int(twelve,2), len(twelve))
 
-        samlpes.extend(point)
+        samples.extend(point)
 
     return samples
 
@@ -102,12 +104,9 @@ def configure_scope(user_config):
 
 
 def to_bin(sample):
-    print(sample)
-    res = "{0:012b}".format(int(sample, 16))
-    print(res)
-    dec = twos_comp(int(res, 2), len(res))
-
-    return dec
+    #print(sample)
+    res = "{0:08b}".format(sample)
+    return res
 
 def twos_comp(val, bits):
     """compute the 2's complement of int value val"""
