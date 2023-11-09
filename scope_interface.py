@@ -1,4 +1,3 @@
-import serial
 import numpy as np
 import sample_convert
 
@@ -13,7 +12,7 @@ import sys
 backend = usb.backend.libusb1.get_backend(find_library=lambda x: "./libusb-1.0.dll")
 
 dev = usb.core.find(backend=backend)
-dev = usb.core.find(idVendor=0x1FC9, idProduct=0x000C)
+dev = usb.core.find(idVendor=0x1FC9, idProduct=0x008A)
 
 if dev is None:
     raise ValueError('Simple Scope is not connected!')
@@ -78,50 +77,23 @@ def get_samples():
         samples.extend(data)
     return samples
 
-    
 
 def configure_scope(user_config):
     dev.write(0x81, user_config)
 
 
-# ----------------------- serial port example ----------------------- #
+def to_dec(sample):
+    print(sample)
+    res = "{0:012b}".format(int(sample, 16))
+    print(res)
+    dec = twos_comp(int(res, 2), len(res))
 
-"""
-def simulate_uart_data(data_size=64):
-    # Simulate data from a UART device
-    simulated_data = b"Hello, this is simulated data from UART." + b"\x00" * (data_size - 48)
-    return simulated_data
+    return dec
 
-def get_uart_data(com_port, baud_rate=115200, data_size=64, simulate=False):
-    if simulate:
-        return simulate_uart_data(data_size)
+def twos_comp(val, bits):
+    """compute the 2's complement of int value val"""
+    if (val & (1 << (bits - 1))) != 0: # if sign bit is set e.g., 8bit: 128-255
+        val = val - (1 << bits)        # compute negative value
+    return val                         # return positive value as is
 
-    # Open the COM port
-    with serial.Serial(com_port, baud_rate, timeout=1) as ser:
-        data = ser.read(data_size)
 
-    return data
-
-def main():
-    choice = input("Select communication type (UART/BMP): ").upper()
-
-    if choice == "UART":
-        COM_PORT = 'COM3'  # Adjust this value to your COM port
-        BAUD_RATE = 9600   # Baud rate, adjust as per your setup
-        data = get_uart_data(COM_PORT, BAUD_RATE, simulate=True)
-
-    elif choice == "BMP":
-        BMP_COM_PORT = 'COM4'  # This is an example. You'll need to adjust based on which port BMP UART passthrough is on.
-        data = get_uart_data(BMP_COM_PORT, simulate=True)
-
-    else:
-        print("Invalid choice!")
-        return
-
-    # Append the data to a txt file on a new line
-    with open("data.txt", "ab") as file:
-        file.write(data + b'\n')  # Appending a newline byte to the end of the data
-
-if __name__ == "__main__":
-    main()
-"""

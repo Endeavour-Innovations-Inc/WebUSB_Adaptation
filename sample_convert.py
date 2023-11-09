@@ -16,9 +16,9 @@ def twos_comp(val, bits):
 
 """
 samp = 'AFF91FF9'
-#output = get_dec(samp[1:4])
-#output = get_dec(samp[5:8])
+#output = to_dec(samp[1:4])
+#output = to_dec(samp[5:8])
 
-print(get_dec(samp[1:4]))
-print(get_dec(samp[5:8]))
+print(to_dec(samp[1:4]))
+print(to_dec(samp[5:8]))
 """
