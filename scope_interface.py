@@ -1,5 +1,4 @@
 import numpy as np
-#import sample_convert
 
 # -----------------------  USB example ----------------------- #
 
@@ -41,7 +40,6 @@ ep = usb.util.find_descriptor(
 eaddr = ep.bEndpointAddress
 """
 
-
 #print(cfg)
 
 try:
@@ -68,21 +66,8 @@ def get_samples():
     sample_temp = []
     samples_bin = []
     for i in range(1024):
-        """
-        while True:
-            try:
-                #dev.write(0x82, 'prime', 1000)     #uncomment this line to manually write a value into the interrupt endpoint
-                data = dev.read(0x81, 0x40, 1000)
-                print(i + " " + data)
-            except usb.core.USBTimeoutError as e:
-                data = None
-                print(str(e) + ' - continuing')
-                pass
-        """
         data = dev.read(0x81, 0x40, 1000)
         print(str(i) + " " + str(data))
-        
-        #print(samples)
         sample_temp.extend(data)
 
     datasize = len(sample_temp)
@@ -97,6 +82,8 @@ def get_samples():
         point = twos_comp(int(twelve,2), len(twelve))
 
         samples.append(point)
+
+        print(samples_bin)
 
     return samples
 

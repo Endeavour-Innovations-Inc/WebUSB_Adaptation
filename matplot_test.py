@@ -6,7 +6,6 @@ import csv
 #from scipy import signal
 
 import scope_interface
-#import sample_convert
 
 
 t_data = []
@@ -22,12 +21,12 @@ with open('noisy_sin_gen.csv', newline='') as csvfile:
 """
 
 v_data = scope_interface.get_samples()
-print(v_data)
+#print(v_data)
 
-t_data = np.arange(0, 4095, 1)
+t_data = np.arange(0, 32760, 1)
 
 #print(header)
-print(t_data)
+#print(t_data)
 
 """
 b, a = signal.butter(3, 0.025)
