@@ -6,7 +6,7 @@ import csv
 #from scipy import signal
 
 import scope_interface
-import sample_convert
+#import sample_convert
 
 
 t_data = []
@@ -80,7 +80,7 @@ class SnappingCursor:
             self.ax.figure.canvas.draw()
 
 fig, ax = plt.subplots()
-ax.set_title('Scipy Filtering (Simulated Data)')
+ax.set_title('Sampled Data (32K Samples)')
 line, = ax.plot(t_data, v_data)
 #line, = ax.plot(t_data, y_filt)
 snap_cursor = SnappingCursor(ax, line)

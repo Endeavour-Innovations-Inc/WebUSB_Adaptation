@@ -1,5 +1,5 @@
 import numpy as np
-import sample_convert
+#import sample_convert
 
 # -----------------------  USB example ----------------------- #
 
@@ -66,6 +66,7 @@ def get_device_info():
 def get_samples():
     samples = []
     sample_temp = []
+    samples_bin = []
     for i in range(1024):
         """
         while True:
@@ -86,15 +87,16 @@ def get_samples():
 
     datasize = len(sample_temp)
 
-    for j in range(datasize):
+    for j in range(0, datasize-1, 2):
         b0 = to_bin(sample_temp[j])
         b1 = to_bin(sample_temp[j+1])
 
         twelve = "".join([b1[5:8], b0])
+        samples_bin.append(twelve)
 
         point = twos_comp(int(twelve,2), len(twelve))
 
-        samples.extend(point)
+        samples.append(point)
 
     return samples
 

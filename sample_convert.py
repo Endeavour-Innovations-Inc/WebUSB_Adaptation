@@ -18,13 +18,12 @@ def twos_comp(val, bits):
 samp = 'AFF91FF9'
 d0 = 15
 d1 = 249
-b0 = to_dec(d0)
-b1 = to_dec(d1)
+#b0 = to_dec(d0)
+#b1 = to_dec(d1)
 
-concat = "".join([b0[5:8], b1])
+concat = '011111110011'
 
-p1 = twos_comp(int(concat,2), len(concat))
-p2 = twos_comp(concat2, len(concat2))
+p1 = twos_comp(int(concat, 2), 12)
 
 print(concat)
 print(p1)
