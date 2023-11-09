@@ -1,12 +1,12 @@
 
 
-def get_dec(sample):
+def to_dec(sample):
 	print(sample)
-	res = "{0:012b}".format(int(sample, 16))
-	print(res)
-	dec = twos_comp(int(res, 2), len(res))
+	res = "{0:08b}".format(sample)
+	#print(res)
+	#dec = twos_comp(int(res, 2), len(res))
 
-	return dec
+	return res
 
 def twos_comp(val, bits):
     """compute the 2's complement of int value val"""
@@ -14,11 +14,19 @@ def twos_comp(val, bits):
         val = val - (1 << bits)        # compute negative value
     return val                         # return positive value as is
 
-"""
-samp = 'AFF91FF9'
-#output = to_dec(samp[1:4])
-#output = to_dec(samp[5:8])
 
-print(to_dec(samp[1:4]))
-print(to_dec(samp[5:8]))
-"""
+samp = 'AFF91FF9'
+d0 = 15
+d1 = 249
+b0 = to_dec(d0)
+b1 = to_dec(d1)
+
+concat = "".join([b0[5:8], b1])
+
+p1 = twos_comp(int(concat,2), len(concat))
+p2 = twos_comp(concat2, len(concat2))
+
+print(concat)
+print(p1)
+
+

@@ -65,6 +65,7 @@ def get_device_info():
 
 def get_samples():
     samples = []
+    sample_temp = []
     for i in range(1024):
         """
         while True:
@@ -79,8 +80,20 @@ def get_samples():
         """
         data = dev.read(0x81, 0x40, 1000)
         print(str(i) + " " + str(data))
-        samples.extend(data)
+        
         #print(samples)
+        sample_temp.extend(data)
+
+    for j in sample_temp
+        b0 = to_bin(sample_temp[j])
+        b1 = to_bin(sample_temp[j+1])
+
+        twelve = "".join([b1[5:8], b0])
+
+        point = twos_comp(int(twelve,2), len(twelve))
+
+        samlpes.extend(point)
+
     return samples
 
 
@@ -88,7 +101,7 @@ def configure_scope(user_config):
     dev.write(0x01, user_config)
 
 
-def to_dec(sample):
+def to_bin(sample):
     print(sample)
     res = "{0:012b}".format(int(sample, 16))
     print(res)
