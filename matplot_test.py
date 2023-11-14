@@ -7,32 +7,22 @@ import csv
 
 import scope_interface
 
+scope_interface.connect_to_scope()
 
 t_data = []
 v_data = []
 
-"""
-with open('noisy_sin_gen.csv', newline='') as csvfile:
-    reader = csv.reader(csvfile, delimiter=',', quoting=csv.QUOTE_NONE)
-    header = next(reader, None)  # skip the headers, save to 'header'
-    for row in reader:
-        #t_data.append(float(row[0]))
-        v_data.append(float(row[1]))
-"""
-
 v_data = scope_interface.get_samples()
 #print(v_data)
 
-t_data = np.arange(0, 32760, 1)
-
-#print(header)
+t_data = np.arange(0, len(v_data), 1)
 #print(t_data)
 
-"""
-b, a = signal.butter(3, 0.025)
-zi = signal.lfilter_zi(b, a)
-y_filt = signal.filtfilt(b, a, v_data)
-"""
+#signal filtering
+#b, a = signal.butter(3, 0.025)
+#zi = signal.lfilter_zi(b, a)
+#y_filt = signal.filtfilt(b, a, v_data)
+
 
 class SnappingCursor:
     
@@ -79,7 +69,7 @@ class SnappingCursor:
             self.ax.figure.canvas.draw()
 
 fig, ax = plt.subplots()
-ax.set_title('Sampled Data (32K Samples)')
+ax.set_title('Sampled Data (' + str(int(len(v_data)/1000)) + 'K Samples)')
 line, = ax.plot(t_data, v_data)
 #line, = ax.plot(t_data, y_filt)
 snap_cursor = SnappingCursor(ax, line)
