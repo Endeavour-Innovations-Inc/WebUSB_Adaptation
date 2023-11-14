@@ -12,6 +12,9 @@ scope_interface.connect_to_scope()
 t_data = []
 v_data = []
 
+while(scope_interface.check_for_data() != 1):
+    continue
+
 v_data = scope_interface.get_samples()
 #print(v_data)
 
