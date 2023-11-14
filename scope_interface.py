@@ -25,11 +25,12 @@ def twos_comp(val, bits):
 
 backend = usb.backend.libusb1.get_backend(find_library=lambda x: "./libusb-1.0.dll")
 
+#connects to Simple Scope
 def connect_to_scope():
 
     global dev
     dev = usb.core.find(backend=backend)
-    dev = usb.core.find(idVendor=0x1FC9, idProduct=0x000C) #idProduct=0x008A for programmed device
+    dev = usb.core.find(idVendor=0x1FC9, idProduct=0x008A) #idProduct=0x008A for programmed device
 
     if dev is None:
         raise ValueError('Simple Scope is not connected!')
@@ -59,6 +60,8 @@ def connect_to_scope():
                 pass
     """
 
+#inputs in_tokens into scope BULK_IN endpoint
+#returns data buffer of signed integers
 def get_samples():
     samples = []
     sample_temp = []
@@ -74,24 +77,23 @@ def get_samples():
         b0 = to_bin(sample_temp[j])     #convert lower int to 8-bit binary
         b1 = to_bin(sample_temp[j+1])   #convert upper int to 8-bit binary
 
-        b12_sample = "".join([b1[4:8], b0])     #concatenate into 12-bit sample value (truncate upper 4-bits)
-        samples_bin.append(b12_sample)
+        sample_12b = "".join([b1[4:8], b0])     #concatenate into 12-bit sample value (truncate upper 4-bits)
+        samples_bin.append(sample_12b)
 
-        point = twos_comp(int(b12_sample,2), len(b12_sample))
+        point = twos_comp(int(sample_12b,2), len(sample_12b))
         samples.append(point)
 
         #print(samples_bin)
 
     return samples
 
-
-def configure_scope(user_config):
-    dev.write(0x01, user_config)
-
+#polls scope INTERRUPT endpoint for new data
+#returns status bit
 def check_for_data():
-    res = 0
-    while res != 1:
-        res = dev.read(0x82, 0x4, 0x8)
+    res = dev.read(0x82, 0x4, 0x8)
     return res
 
+#sends array of user configuration values to scope BULK_OUT endpoint
+def configure_scope(user_configs):
+    dev.write(0x01, user_configs)
 
