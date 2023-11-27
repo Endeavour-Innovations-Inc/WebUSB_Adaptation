@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backend_bases import MouseEvent
 import numpy as np
 import csv
+import usb.core
 
 #from scipy import signal
 
@@ -15,7 +16,7 @@ v_data = []
 data_ready = None
 while(data_ready == None):
     try:
-        data_ready = check_for_data()
+        data_ready = scope_interface.check_for_data()
     except usb.core.USBError:
         pass
 
