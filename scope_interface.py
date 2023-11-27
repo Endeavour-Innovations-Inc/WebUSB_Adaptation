@@ -1,5 +1,4 @@
 
-#pyusb setup
 import usb.core
 import usb.util
 import usb.backend.libusb1
@@ -23,19 +22,19 @@ def twos_comp(val, bits):
 # -----------------------  Public Methods ----------------------- #
 
 
-#backend = usb.backend.libusb1.get_backend(find_library=lambda x: "./libusb-1.0.dll")
+backend = usb.backend.libusb1.get_backend(find_library=lambda x: "./libusb-1.0.dll")
 
 #connects to Simple Scope
 def connect_to_scope():
 
     global dev
-    #dev = usb.core.find(backend=backend)
+    dev = usb.core.find(backend=backend)
     dev = usb.core.find(idVendor=0x1FC9, idProduct=0x008A) #idProduct=0x008A for programmed device
 
     if dev is None:
         raise ValueError('Simple Scope is not connected!')
     else:
-        print("Simple Scope Connected!")
+        print("#\n#\n#\n# -----------------------  Simple Scope Connected! ----------------------- \n#\n#\n#")
 
     #print(dev)
 

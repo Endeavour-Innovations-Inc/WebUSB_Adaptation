@@ -18,12 +18,13 @@ while(data_ready == None):
     try:
         data_ready = scope_interface.check_for_data()
     except usb.core.USBError:
+        print('Error Encountered - Retrying')
         pass
 
 print('Interrupt Received From Device - Requesting Data...')
 
 v_data = scope_interface.get_samples()
-#print(v_data)
+print(len(v_data))
 
 t_data = np.arange(0, len(v_data), 1)
 #print(t_data)
