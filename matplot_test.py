@@ -20,6 +20,8 @@ while(data_ready == None):
     except usb.core.USBError:
         pass
 
+print('Interrupt Received From Device - Requesting Data...')
+
 v_data = scope_interface.get_samples()
 #print(v_data)
 
