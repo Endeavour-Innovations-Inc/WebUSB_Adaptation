@@ -4,9 +4,15 @@ import numpy as np
 import csv
 import usb.core
 
-#from scipy import signal
+from scipy import signal
+import subprocess
+import time
 
 import scope_interface
+
+#scope_interface.program_scope()
+
+time.sleep(1)
 
 scope_interface.connect_to_scope()
 
@@ -18,7 +24,7 @@ while(data_ready == None):
     try:
         data_ready = scope_interface.check_for_data()
     except usb.core.USBError:
-        print('Error Encountered - Retrying')
+        print('Data Not Ready - Retrying')
         pass
 
 print('Interrupt Received From Device - Requesting Data...')
@@ -30,9 +36,9 @@ t_data = np.arange(0, len(v_data), 1)
 #print(t_data)
 
 #signal filtering
-#b, a = signal.butter(3, 0.025)
-#zi = signal.lfilter_zi(b, a)
-#y_filt = signal.filtfilt(b, a, v_data)
+b, a = signal.butter(3, 0.015)
+zi = signal.lfilter_zi(b, a)
+y_filt = signal.filtfilt(b, a, v_data)
 
 
 class SnappingCursor:
@@ -80,9 +86,9 @@ class SnappingCursor:
             self.ax.figure.canvas.draw()
 
 fig, ax = plt.subplots()
-ax.set_title('Sampled Data (' + str(int(len(v_data)/1000)) + 'K Samples)')
+ax.set_title('Data Collected (' + str(int(len(v_data)/1000)) + 'K Samples)')
 line, = ax.plot(t_data, v_data)
-#line, = ax.plot(t_data, y_filt)
+line, = ax.plot(t_data, y_filt)
 snap_cursor = SnappingCursor(ax, line)
 fig.canvas.mpl_connect('motion_notify_event', snap_cursor.on_mouse_move)
 

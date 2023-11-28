@@ -4,6 +4,8 @@ import usb.util
 import usb.backend.libusb1
 import sys
 
+import subprocess
+
 
 # -----------------------  Data Conversion Methods ----------------------- #
 
@@ -20,6 +22,9 @@ def twos_comp(val, bits):
 
 
 # -----------------------  Public Methods ----------------------- #
+
+def program_scope():
+    subprocess.run(["powershell", "./LPCScrypt_2.1.2_57/scripts/boot_lpcscrypt.cmd ./LPCScrypt_2.1.2_57/Probe_Scope_Firmware.bin.hdr"], shell=True)
 
 
 backend = usb.backend.libusb1.get_backend(find_library=lambda x: "./libusb-1.0.dll")
@@ -65,7 +70,7 @@ def get_samples():
     samples = []
     sample_temp = []
     samples_bin = []
-    for i in range(1024):
+    for i in range(1792):
         data = dev.read(0x81, 0x40, 1000)
         #print(str(i) + " " + str(data))
         sample_temp.extend(data)
