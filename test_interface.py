@@ -200,7 +200,12 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
 
     if triggered_id == 'run-enable':
         configs = [1]
-        scope_interface.configure_scope(configs)
+        try:
+            scope_interface.configure_scope(configs)
+        except usb.core.USBError:
+            print('Device Not Ready')
+            pass
+
 
     # If the reset button is clicked, clear the graph
     if triggered_id == 'reset-button':
@@ -208,7 +213,7 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
         return {'data': [initial_trace], 'layout': layout}
 
     if triggered_id == 'connect-button':
-        #scope_interface.program_scope()
+        scope_interface.program_scope()
         time.sleep(1)
         scope_interface.connect_to_scope()
 
@@ -234,8 +239,12 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
                 print('Data Not Ready - Retrying')
                 pass
 
+        print('Interrupt Received From Device - Requesting Data...')
+
         v_data = scope_interface.get_samples()
         t_data = np.arange(0, len(v_data), 1)
+
+        print(len(v_data))
         
         # Check if the filter switch is enabled and apply the filter
         if 'On' in filter_toggle_label:
