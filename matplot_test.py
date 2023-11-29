@@ -10,7 +10,7 @@ import time
 
 import scope_interface
 
-#scope_interface.program_scope()
+scope_interface.program_scope()
 
 time.sleep(1)
 
