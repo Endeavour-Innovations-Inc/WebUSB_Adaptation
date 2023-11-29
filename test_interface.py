@@ -213,7 +213,7 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
         return {'data': [initial_trace], 'layout': layout}
 
     if triggered_id == 'connect-button':
-        scope_interface.program_scope()
+        #scope_interface.program_scope()
         time.sleep(1)
         scope_interface.connect_to_scope()
 
