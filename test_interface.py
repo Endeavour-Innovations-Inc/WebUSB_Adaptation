@@ -203,11 +203,10 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
         configs = [1]
         try:
             scope_interface.configure_scope(configs)
+            print('Device Configured!')
         except usb.core.USBError:
             print('Device Not Ready')
             pass
-        else:
-            print('Device Configured!')
 
 
     # If the reset button is clicked, clear the graph
@@ -232,6 +231,15 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
         decoded = base64.b64decode(content_string)
         #df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
         """
+
+        configs = [1]
+        try:
+            scope_interface.configure_scope(configs)
+            print('Device Configured!')
+        except usb.core.USBError:
+            print('Device Not Ready')
+            pass
+
         v_data = []
         t_data = []
 
