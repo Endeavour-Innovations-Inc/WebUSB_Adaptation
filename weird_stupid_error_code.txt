@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "D:\real_digital\WebUSB_Adaptation\scope_interface.py", line 48, in connect_to_scope
+    cfg.set()
+  File "C:\Python311\Lib\site-packages\usb\core.py", line 641, in set
+    self.device.set_configuration(self.bConfigurationValue)
+  File "C:\Python311\Lib\site-packages\usb\core.py", line 915, in set_configuration
+    self._ctx.managed_set_configuration(self, configuration)
+  File "C:\Python311\Lib\site-packages\usb\core.py", line 113, in wrapper
+    return f(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\usb\core.py", line 158, in managed_set_configuration
+    self.managed_open()
+  File "C:\Python311\Lib\site-packages\usb\core.py", line 113, in wrapper
+    return f(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\usb\core.py", line 131, in managed_open
+    self.handle = self.backend.open_device(self.dev)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\usb\backend\libusb1.py", line 804, in open_device
+    return _DeviceHandle(dev)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\usb\backend\libusb1.py", line 652, in __init__
+    _check(_lib.libusb_open(self.devid, byref(self.handle)))
+  File "C:\Python311\Lib\site-packages\usb\backend\libusb1.py", line 604, in _check
+    raise USBError(_strerror(ret), ret, _libusb_errno[ret])
+usb.core.USBError: [Errno 13] Access denied (insufficient permissions)

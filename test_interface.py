@@ -12,6 +12,7 @@ from flask import send_file
 import xlsxwriter
 import csv
 from scipy.signal import lfilter
+from scipy import signal
 from datetime import datetime
 
 import usb.core
@@ -205,6 +206,8 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
         except usb.core.USBError:
             print('Device Not Ready')
             pass
+        else:
+            print('Device Configured!')
 
 
     # If the reset button is clicked, clear the graph
@@ -213,17 +216,18 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
         return {'data': [initial_trace], 'layout': layout}
 
     if triggered_id == 'connect-button':
-        #scope_interface.program_scope()
+        scope_interface.program_scope()
         time.sleep(1)
         scope_interface.connect_to_scope()
 
     # If new file data is uploaded, update the graph
     if triggered_id == 'get-data':
 
-        """
+        
         # Generate a timestamp to force the update
         timestamp = datetime.now()
         
+        """
         content_type, content_string = contents.split(',')
         decoded = base64.b64decode(content_string)
         #df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
@@ -236,7 +240,8 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
             try:
                 data_ready = scope_interface.check_for_data()
             except usb.core.USBError:
-                print('Data Not Ready - Retrying')
+                print('Data Not Ready - Retrying in 3 Seconds')
+                time.sleep(3)
                 pass
 
         print('Interrupt Received From Device - Requesting Data...')
@@ -244,17 +249,24 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
         v_data = scope_interface.get_samples()
         t_data = np.arange(0, len(v_data), 1)
 
+        d = {'t': t_data, 'data': v_data}
+        df = pd.DataFrame(d)
+
         print(len(v_data))
         
         # Check if the filter switch is enabled and apply the filter
         if 'On' in filter_toggle_label:
             # Define filter coefficients here for smoothing
+            """
             b = [1, -0.95]  # Numerator coefficients
             a = [1]         # Denominator coefficients
-            filtered_data = lfilter(b, a, df['data'])
+            """
+            b, a = signal.butter(3, 0.025)
+            zi = signal.lfilter_zi(b, a)
+            filtered_data = signal.filtfilt(b, a, df['data'])
             trace = go.Scatter(x=df['t'], y=filtered_data, mode='lines', name='Filtered Data')
         else:
-            trace = go.Scatter(x=t_data, y=v_data, mode='lines', name='Original Data')
+            trace = go.Scatter(x=df['t'], y=df['data'], mode='lines', name='Original Data')
 
         return {'data': [trace], 'layout': layout}
 

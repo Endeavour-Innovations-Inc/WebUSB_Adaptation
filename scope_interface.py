@@ -24,9 +24,10 @@ def twos_comp(val, bits):
 # -----------------------  Public Methods ----------------------- #
 
 def program_scope():
-    subprocess.run(["powershell", "./LPCScrypt_2.1.2_57/scripts/boot_lpcscrypt.cmd ./LPCScrypt_2.1.2_57/Probe_Scope_Firmware.bin.hdr"], shell=True)
+    subprocess.run(["powershell", "./LPCScrypt_2.1.2_57/scripts/boot_lpcscrypt.cmd ./LPCScrypt_2.1.2_57/BufferTest.bin.hdr"], shell=True)
 
 
+dev = None
 backend = usb.backend.libusb1.get_backend(find_library=lambda x: "./libusb-1.0.dll")
 
 #connects to Simple Scope
@@ -67,6 +68,13 @@ def connect_to_scope():
 #inputs in_tokens into scope BULK_IN endpoint
 #returns data buffer of signed integers
 def get_samples():
+    
+    index_buff = dev.read(0x81, 0x40, 1000)
+    index = "".join([to_bin(index_buff[3]), to_bin(index_buff[2]), to_bin(index_buff[1]), to_bin(index_buff[0])])
+    #index = "".join([to_bin(index_buff[0]), to_bin(index_buff[1]), to_bin(index_buff[2]), to_bin(index_buff[3])])  #uncomment line if order is backwards
+    print(index_buff)
+    print(index)
+    
     samples = []
     sample_temp = []
     samples_bin = []
@@ -99,5 +107,8 @@ def check_for_data():
 
 #sends array of user configuration values to scope BULK_OUT endpoint
 def configure_scope(user_configs):
-    dev.write(0x01, user_configs)
+    if dev is None:
+        raise ValueError('Simple Scope is not connected!')
+    else:
+        dev.write(0x01, user_configs)
 
