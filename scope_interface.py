@@ -67,6 +67,8 @@ def connect_to_scope():
 
 #inputs in_tokens into scope BULK_IN endpoint
 #returns data buffer of signed integers
+index_buff = []
+index = 0
 def get_samples():
     
     index_buff = dev.read(0x81, 0x40, 1000)
@@ -97,7 +99,12 @@ def get_samples():
 
         #print(samples_bin)
 
-    return samples
+    #arrange samples based on starting index
+    split1 = samples[0:int(index,2)]
+    split2 = samples[int(index,2):len(samples)]
+    split2.extend(split1)
+
+    return split2
 
 #polls scope INTERRUPT endpoint for new data
 #returns status bit
