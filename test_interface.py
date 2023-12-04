@@ -260,7 +260,7 @@ def update_graph(view, reset_clicks, connect, get_data, filter_toggle_label):
         #df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
         """
 
-        trig = 1
+        trig = 
         trig_bin = "{0:012b}".format(int(trig*1000))
         trig_low = int(trig_bin[0:8], 2)
         trig_hi = int(trig_bin[8:12], 2)
@@ -273,7 +273,8 @@ def update_graph(view, reset_clicks, connect, get_data, filter_toggle_label):
 
         trig_condition = "".join([rise, force])
 
-        configs = [1, int(trig_condition, 2), trig_low, trig_hi, atten, coupl]
+        #configs = [1, int(trig_condition, 2), trig_low, trig_hi, atten, coupl]
+        configs = [1, 2, 3, 4, 5, 6]
         print('Configs are: ' + str(configs))
 
         try:
