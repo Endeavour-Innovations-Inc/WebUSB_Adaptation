@@ -52,19 +52,6 @@ def connect_to_scope():
     except usb.core.USBError:
         pass
 
-    #Device control transfer request
-    """
-    def get_device_info():
-        for bRequest in range(255):
-            try:
-                read = dev.ctrl_transfer(0x80, bRequest, 0, 0, 16) #read 8 bytes
-                print ("bRequest ", bRequest)
-                print (read)
-            except:
-                # failed to get data for this request
-                pass
-    """
-
 #inputs in_tokens into scope BULK_IN endpoint
 #returns data buffer of signed integers
 index_buff = []
@@ -74,8 +61,8 @@ def get_samples():
     index_buff = dev.read(0x81, 0x40, 1000)
     index = "".join([to_bin(index_buff[3]), to_bin(index_buff[2]), to_bin(index_buff[1]), to_bin(index_buff[0])])
     #index = "".join([to_bin(index_buff[0]), to_bin(index_buff[1]), to_bin(index_buff[2]), to_bin(index_buff[3])])  #uncomment line if order is backwards
-    print(index_buff)
-    print(index)
+    #print(index_buff)
+    #print(index)
     
     samples = []
     sample_temp = []

@@ -20,6 +20,8 @@ import scope_interface
 import numpy as np
 import time
 
+from scipy.fftpack import fft, ifft, fftfreq
+
 #scope_interface.connect_to_scope()
 
 server = Flask(__name__)
@@ -123,7 +125,7 @@ button_style = {
 # Define the layout of your app
 app.layout = html.Div([
     html.Div([
-        html.Button('RUN!', id='run-enable', style={'width': '10%'}),
+        html.Button('Toggle View', id='view-mode', style={'width': '10%'}),
         html.Button('Enable Filter: Off', id='filter-toggle', n_clicks=0, style={'width': '10%'}),
         html.Button('Reset', id='reset-button', style={'width': '10%'}),
         html.Button('Export Data', id='export-button', style={'width': '10%'}),
@@ -170,12 +172,15 @@ app.layout = html.Div([
 global df
 df = pd.DataFrame()
 
+global fft_on
+fft_on = False
+
 # Callback to handle filter toggle button
 @app.callback(
     Output('filter-toggle', 'children'),
     [Input('filter-toggle', 'n_clicks')]
 )
-def toggle_filter(n_clicks):
+def toggle_filter(n_clicks):      
     if n_clicks % 2 == 0:  # If even number of clicks, filter is off
         return 'Enable Filter: Off'
     else:  # If odd number of clicks, filter is on
@@ -185,29 +190,51 @@ def toggle_filter(n_clicks):
 # Combined callback for updating graph with uploaded CSV data, resetting the graph, and applying a filter
 @app.callback(
     Output('my-graph', 'figure'),
-    [Input('run-enable', 'n_clicks'),
+    [Input('view-mode', 'n_clicks'),
      Input('reset-button', 'n_clicks'),
      Input('connect-button', 'n_clicks'),
      Input('get-data', 'n_clicks')],
     [State('filter-toggle', 'children')],  # Add the switch's value as State
     prevent_initial_call=True
 )
-def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
+def update_graph(view, reset_clicks, connect, get_data, filter_toggle_label):
     global df 
     ctx = dash.callback_context
+
+    global fft_on
 
     # Determine which input was triggered
     triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
-    if triggered_id == 'run-enable':
-        configs = [1]
-        try:
-            scope_interface.configure_scope(configs)
-            print('Device Configured!')
-        except usb.core.USBError:
-            print('Device Not Ready')
-            pass
+    if triggered_id == 'view-mode':
+        fft_on = not fft_on
+        print(fft_on)
 
+        if fft_on == True:
+            # Number of sample points
+            sig = df['data']
+            X = fft(sig)
+            N = len(X)
+            n = np.arange(N)
+            # sample spacing
+            sr = 1000
+            T = N/sr
+            freq = n/T 
+
+            n_oneside = N//2
+            f_oneside = freq[:n_oneside]
+
+            yf = fft(df['data'].values)
+            xf = fftfreq(N, T)[:N//2]
+
+            X_oneside =X[:n_oneside]/n_oneside
+
+            trace = go.Scatter(x=f_oneside, y= np.abs(X_oneside), mode='lines', name='Frequency Spectrum')
+
+        else:
+            trace = go.Scatter(x=df['t'], y=df['data'], mode='lines', name='Original Data')
+
+        return {'data': [trace], 'layout': layout}
 
     # If the reset button is clicked, clear the graph
     if triggered_id == 'reset-button':
@@ -222,6 +249,7 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
     # If new file data is uploaded, update the graph
     if triggered_id == 'get-data':
 
+        fft_on = False
         
         # Generate a timestamp to force the update
         timestamp = datetime.now()
@@ -232,7 +260,22 @@ def update_graph(run, reset_clicks, connect, get_data, filter_toggle_label):
         #df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
         """
 
-        configs = [1]
+        trig = 1
+        trig_bin = "{0:012b}".format(int(trig*1000))
+        trig_low = int(trig_bin[0:8], 2)
+        trig_hi = int(trig_bin[8:12], 2)
+
+        rise = '0'
+        force = '1'
+
+        coupl = 1
+        atten = 1
+
+        trig_condition = "".join([rise, force])
+
+        configs = [1, int(trig_condition, 2), trig_low, trig_hi, atten, coupl]
+        print('Configs are: ' + str(configs))
+
         try:
             scope_interface.configure_scope(configs)
             print('Device Configured!')
