@@ -265,13 +265,13 @@ def update_graph(view, reset_clicks, connect, get_data, filter_toggle_label):
         trig_low = int(trig_bin[4:12], 2)
         trig_hi = int(trig_bin[0:4], 2)
 
-        rise = '0'
-        force = '1'
+        rise = 1
+        force = 1
 
         coupl = 1
         atten = 1
 
-        trig_condition = "".join([rise, force])
+        trig_condition = "".join([str(rise), str(force)])
 
         configs = [1, int(trig_condition, 2), trig_low, trig_hi, atten, coupl]
         #configs = [1, 2, 3, 4, 5, 6]

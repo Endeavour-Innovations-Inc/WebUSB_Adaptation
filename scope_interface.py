@@ -60,9 +60,12 @@ def get_samples():
     
     index_buff = dev.read(0x81, 0x40, 1000)
     index = "".join([to_bin(index_buff[3]), to_bin(index_buff[2]), to_bin(index_buff[1]), to_bin(index_buff[0])])
-    #index = "".join([to_bin(index_buff[0]), to_bin(index_buff[1]), to_bin(index_buff[2]), to_bin(index_buff[3])])  #uncomment line if order is backwards
+
+    trig_buff = dev.read(0x81, 0x40, 1000)
+    trigger = "".join([to_bin(trig_buff[3]), to_bin(trig_buff[2]), to_bin(trig_buff[1]), to_bin(trig_buff[0])])
     #print(index_buff)
     #print(index)
+    print(int(trigger, 2))
     
     samples = []
     sample_temp = []
