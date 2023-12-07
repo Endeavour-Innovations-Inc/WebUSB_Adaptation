@@ -85,7 +85,7 @@ def get_samples():
         samples_bin.append(sample_12b)
 
         point = twos_comp(int(sample_12b,2), len(sample_12b))
-        samples.append(point)
+        samples.append(float(point)/2048)
 
         #print(samples_bin)
 
